@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Keep the site mobile-friendly -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Forms/Templates Website</title>
+  
+  <!-- Google Fonts for a modern look -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  
+  <!-- Bootstrap CSS for grid and responsiveness -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Flatpickr CSS for date picker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  
+  <!-- Custom CSS for the modern/material-like design -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar modern-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <span class="brand-text">Forms/Templates</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- Left: Navigation links -->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('home')">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('category')">Category</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('offers')">Offers</a></li>
+        </ul>
+        <!-- Right: Search & Dark Mode Toggle -->
+        <form class="form-inline modern-search" onsubmit="searchFunction(event)">
+          <div class="search-input-wrapper">
+            <input class="form-control search-input" type="search" placeholder="Search files" 
+                   aria-label="Search" id="searchInput" list="fileSuggestions">
+            <span class="clear-search" onclick="resetSearch()">&times;</span>
+          </div>
+          <datalist id="fileSuggestions"></datalist>
+          <button class="btn modern-search-btn" type="submit">Search</button>
+        </form>
+        <label class="switch ml-3 mb-0">
+          <input type="checkbox" id="darkModeSwitch">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <!-- Home Section: IPC/CrPC Converters & Age Calculator -->
+    <div id="homeSection">
+      <h2>Home</h2>
+      <div class="row">
+        <!-- IPC to BNS Converter -->
+        <div class="col-md-6 converter-section">
+          <h4>IPC to BNS Converter</h4>
+          <div class="form-group">
+            <input type="text" class="form-control" id="ipcInput" placeholder="Enter IPC value">
+          </div>
+          <button class="btn material-btn" onclick="convertIPCtoBNS()">Convert</button>
+          <div class="result"><strong>Result:</strong> <span id="ipcResult"></span></div>
+          <p class="small mt-1">
+            (Based on data from: 
+              <a href="https://bprd.nic.in/uploads/pdf/COMPARISON%20SUMMARY%20BNS%20to%20IPC%20.pdf" target="_blank">
+                BNS to IPC PDF
+              </a>)
+          </p>
+        </div>
+        <!-- CrPc to BNSS Converter -->
+        <div class="col-md-6 converter-section">
+          <h4>CrPc to BNSS Converter</h4>
+          <div class="form-group">
+            <input type="text" class="form-control" id="crpcInput" placeholder="Enter CrPc value">
+          </div>
+          <button class="btn material-btn" onclick="convertCrPcToBNSS()">Convert</button>
+          <div class="result"><strong>Result:</strong> <span id="crpcResult"></span></div>
+          <p class="small mt-1">
+            (Based on data from: 
+              <a href="https://bprd.nic.in/uploads/pdf/Comparison%20summary%20BNSS%20to%20CrPC.pdf" target="_blank">
+                BNSS to CrPC PDF
+              </a>)
+          </p>
+        </div>
+      </div>
+      <!-- Age Calculator Row -->
+      <div class="row">
+        <div class="col-12 calculator-section">
+          <h4>Age Calculator</h4>
+          <div class="form-group">
+            <label for="dobInput">Date of Birth</label>
+            <div class="date-input-wrapper">
+              <input type="text" class="form-control" id="dobInput" placeholder="Select date" readonly>
+              <i class="fas fa-calendar-alt date-icon"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="refDateInput">Calculate Age as of</label>
+            <div class="date-input-wrapper">
+              <input type="text" class="form-control" id="refDateInput" placeholder="Select date" readonly>
+              <i class="fas fa-calendar-alt date-icon"></i>
+            </div>
+          </div>
+          <button class="btn material-btn" onclick="calculateAge()">Calculate Age</button>
+          <div id="ageResult" class="result mt-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Offers Section (Gold Prices) -->
+    <div id="offersSection" style="display:none;">
+      <h2>Offers</h2>
+      <div class="row">
+        <!-- Lucknow Gold Price -->
+        <div class="col-md-4">
+          <div class="card material-card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Lucknow Gold Price</h5>
+              <p class="card-text"><span id="goldLucknow">Loading...</span></p>
+            </div>
+          </div>
+        </div>
+        <!-- Delhi Gold Price -->
+        <div class="col-md-4">
+          <div class="card material-card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Delhi Gold Price</h5>
+              <p class="card-text"><span id="goldDelhi">Loading...</span></p>
+            </div>
+          </div>
+        </div>
+        <!-- Patna Gold Price -->
+        <div class="col-md-4">
+          <div class="card material-card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">Patna Gold Price</h5>
+              <p class="card-text"><span id="goldPatna">Loading...</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Section (Folders & Search Results) -->
+    <div id="categorySection" style="display:none;">
+      <h2>Category</h2>
+      <!-- Container for Search Results -->
+      <div id="searchResults" style="display:none;">
+        <h4>Search Results:</h4>
+        <ul class="list-group" id="searchResultsList"></ul>
+      </div>
+      <!-- Accordion for Folders -->
+      <div id="foldersAccordion" class="accordion row">
+        <!-- Folder: अवकाश -->
+        <div class="col-md-6 col-lg-4">
+          <div class="card material-card folder-card">
+            <div class="card-header" id="headingAvkaash">
+              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseAvkaash" 
+                      aria-expanded="false" aria-controls="collapseAvkaash">
+                <i class="fas fa-folder"></i> अवकाश
+              </button>
+            </div>
+            <div id="collapseAvkaash" class="collapse" aria-labelledby="headingAvkaash" data-parent="#foldersAccordion">
+              <div class="card-body">
+                <ul class="list-group" id="folder-avkaash-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Folder: मेडिकल -->
+        <div class="col-md-6 col-lg-4">
+          <div class="card material-card folder-card">
+            <div class="card-header" id="headingMedical">
+              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseMedical" 
+                      aria-expanded="false" aria-controls="collapseMedical">
+                <i class="fas fa-folder"></i> मेडिकल
+              </button>
+            </div>
+            <div id="collapseMedical" class="collapse" aria-labelledby="headingMedical" data-parent="#foldersAccordion">
+              <div class="card-body">
+                <ul class="list-group" id="folder-medical-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Folder: विवेचक फाईल -->
+        <div class="col-md-6 col-lg-4">
+          <div class="card material-card folder-card">
+            <div class="card-header" id="headingVivechak">
+              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseVivechak" 
+                      aria-expanded="false" aria-controls="collapseVivechak">
+                <i class="fas fa-folder"></i> विवेचक फाईल
+              </button>
+            </div>
+            <div id="collapseVivechak" class="collapse" aria-labelledby="headingVivechak" data-parent="#foldersAccordion">
+              <div class="card-body">
+                <ul class="list-group" id="folder-vivechak-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Folder: थाना कार्यालय -->
+        <div class="col-md-6 col-lg-4">
+          <div class="card material-card folder-card">
+            <div class="card-header" id="headingThana">
+              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseThana" 
+                      aria-expanded="false" aria-controls="collapseThana">
+                <i class="fas fa-folder"></i> थाना कार्यालय
+              </button>
+            </div>
+            <div id="collapseThana" class="collapse" aria-labelledby="headingThana" data-parent="#foldersAccordion">
+              <div class="card-body">
+                <ul class="list-group" id="folder-thana-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Folder: नोटिस -->
+        <div class="col-md-6 col-lg-4">
+          <div class="card material-card folder-card">
+            <div class="card-header" id="headingNotice">
+              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseNotice" 
+                      aria-expanded="false" aria-controls="collapseNotice">
+                <i class="fas fa-folder"></i> नोटिस
+              </button>
+            </div>
+            <div id="collapseNotice" class="collapse" aria-labelledby="headingNotice" data-parent="#foldersAccordion">
+              <div class="card-body">
+                <ul class="list-group" id="folder-notice-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of accordion -->
+    </div>
+  </div>
+
+  <!-- Modal for Document Preview -->
+  <div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" 
+       aria-labelledby="filePreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content material-card">
+        <div class="modal-header">
+          <h5 class="modal-title" id="filePreviewModalLabel">File Preview</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <iframe id="filePreviewFrame" class="modal-iframe"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- External Scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+  <!-- Flatpickr for improved date inputs -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <!-- Custom JS -->
+  <script src="script.js"></script>
+</body>
+</html>
