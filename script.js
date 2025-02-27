@@ -1,266 +1,310 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <!-- Keep the site mobile-friendly -->
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Police Files</title>
-  
-  <!-- Google Fonts for a modern look -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-  
-  <!-- Bootstrap CSS for grid and responsiveness -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
-  <!-- Flatpickr CSS for date picker -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  
-  <!-- Custom CSS for the modern/material design -->
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <!-- Premium Header with Title, Search Bar, and Dark Mode Toggle -->
-  <header class="site-header">
-    <div class="container">
-      <div class="header-content">
-        <h1 class="site-title">Police Files</h1>
-        <!-- Modern Material Search Bar placed between title and dark mode toggle -->
-        <div class="header-search">
-          <form class="form-inline modern-search" onsubmit="searchFunction(event)">
-            <div class="search-input-wrapper">
-              <input class="form-control search-input" type="search" placeholder="Search files" 
-                     aria-label="Search" id="searchInput" list="fileSuggestions">
-              <!-- Only one custom clear/reset icon -->
-              <span id="clearSearchIcon" class="clear-search" onclick="resetSearch()">&times;</span>
-            </div>
-            <datalist id="fileSuggestions"></datalist>
-            <button class="btn modern-search-btn" type="submit">Search</button>
-          </form>
-        </div>
-        <button id="darkModeToggle" class="dark-mode-btn" aria-label="Toggle dark mode">
-          <i class="fas fa-moon"></i>
-        </button>
+/* Helper: Returns HTML snippet for a single file entry */
+function getFileHTML(index) {
+  const fileId = "1F7Imkz5iE5eOIWfJUsOpvV9ijQUc32-J";
+  const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+  const previewUrl  = `https://drive.google.com/file/d/${fileId}/preview`;
+  return `
+    <li class="list-group-item" data-file-name="File ${index}" data-file-tags="template, form, sample">
+      <div class="d-flex justify-content-start">
+        <button class="btn btn-sm btn-info mr-2" onclick="previewFile('${previewUrl}')">Preview</button>
       </div>
-    </div>
-  </header>
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <span>File ${index}</span>
+        <span>
+          <a href="${downloadUrl}" class="btn btn-sm btn-success" target="_blank">Download</a>
+          <button class="btn btn-sm btn-secondary" onclick="printFile('${previewUrl}')">Print</button>
+        </span>
+      </div>
+    </li>
+  `;
+}
+
+/* FILE LIST GENERATION: Returns HTML for all 5 files */
+function generateFilesHTML() {
+  let html = "";
+  for (let i = 1; i <= 5; i++) {
+    html += getFileHTML(i);
+  }
+  return html;
+}
+
+/* Build file data for Fuse.js fuzzy search */
+function buildFilesData() {
+  let filesData = [];
+  for (let i = 1; i <= 5; i++) {
+    filesData.push({ 
+      name: `File ${i}`, 
+      tags: "template, form, sample", 
+      element: getFileHTML(i)
+    });
+  }
+  return filesData;
+}
+
+var fuse; // Fuse search instance
+
+$(document).ready(function() {
+  // Build the datalist for search suggestions from static file data.
+  let filesData = buildFilesData();
+  let suggestionsSet = new Set();
+  filesData.forEach(item => {
+    suggestionsSet.add(item.name);
+  });
+  let suggestionsList = Array.from(suggestionsSet).filter(s => s && s.length);
+  let optionsHTML = suggestionsList.map(s => `<option value="${s}">`).join('');
+  $('#fileSuggestions').html(optionsHTML);
   
-  <!-- Content Sections -->
-  <div class="container mt-4 content-area">
-    <!-- Home Section: Three Converters in a Single Row -->
-    <div id="homeSection">
-      <div class="converter-container">
-        <div class="row converter-row">
-          <!-- IPC to BNS Converter -->
-          <div class="col-md-4 converter-section">
-            <div class="converter-box">
-              <h4>IPC to BNS Converter</h4>
-              <div class="form-group">
-                <input type="text" class="form-control" id="ipcInput" placeholder="Enter IPC value">
-              </div>
-              <button class="btn material-btn" onclick="convertIPCtoBNS()">Convert</button>
-              <div class="result mt-2"><strong>Result:</strong> <span id="ipcResult"></span></div>
-              <p class="small mt-1">
-                (Based on data from: 
-                <a href="https://bprd.nic.in/uploads/pdf/COMPARISON%20SUMMARY%20BNS%20to%20IPC%20.pdf" target="_blank">
-                  BNS to IPC PDF
-                </a>)
-              </p>
-            </div>
-          </div>
-          <!-- CrPC to BNSS Converter -->
-          <div class="col-md-4 converter-section">
-            <div class="converter-box">
-              <h4>CrPC to BNSS Converter</h4>
-              <div class="form-group">
-                <input type="text" class="form-control" id="crpcInput" placeholder="Enter CrPc value">
-              </div>
-              <button class="btn material-btn" onclick="convertCrPcToBNSS()">Convert</button>
-              <div class="result mt-2"><strong>Result:</strong> <span id="crpcResult"></span></div>
-              <p class="small mt-1">
-                (Based on data from: 
-                <a href="https://bprd.nic.in/uploads/pdf/Comparison%20summary%20BNSS%20to%20CrPC.pdf" target="_blank">
-                  BNSS to CrPC PDF
-                </a>)
-              </p>
-            </div>
-          </div>
-          <!-- Age Calculator -->
-          <div class="col-md-4 converter-section">
-            <div class="converter-box age-calculator">
-              <h4>Age Calculator</h4>
-              <div class="row">
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="dobInput">Date of Birth</label>
-                    <div class="date-input-wrapper">
-                      <input type="text" class="form-control" id="dobInput" placeholder="Select date" readonly>
-                      <i class="fas fa-calendar-alt date-icon"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="refDateInput">As of</label>
-                    <div class="date-input-wrapper">
-                      <input type="text" class="form-control" id="refDateInput" placeholder="Select date" readonly>
-                      <i class="fas fa-calendar-alt date-icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <button class="btn material-btn" onclick="calculateAge()">Calculate Age</button>
-              <div id="ageResult" class="result mt-2"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  // Initialize Fuse with the static files data.
+  let fuseOptions = {
+    keys: ["name", "tags"],
+    threshold: 0.4
+  };
+  fuse = new Fuse(filesData, fuseOptions);
+  
+  // Search input suggestions
+  $("#searchInput").on("input", function() {
+    var query = $(this).val();
+    if (query.length > 0) {
+      $("#clearSearchIcon").show();
+      var results = fuse.search(query);
+      var suggestions = results.map(result => result.item.name);
+      var optionsHTML = suggestions.map(s => `<option value="${s}">`).join('');
+      $("#fileSuggestions").html(optionsHTML);
+    } else {
+      $("#clearSearchIcon").hide();
+      $("#fileSuggestions").empty();
+    }
+  });
+  
+  // Initialize Flatpickr for the Age Calculator inputs
+  flatpickr("#dobInput", { 
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",
+    allowInput: false
+  });
+  flatpickr("#refDateInput", { 
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",
+    allowInput: false
+  });
+});
 
-    <!-- Offers Section (Gold Prices) -->
-    <div id="offersSection" style="display:none;">
-      <div class="row">
-        <!-- Lucknow Gold Price -->
-        <div class="col-md-4">
-          <div class="card material-card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">Lucknow Gold Price</h5>
-              <p class="card-text"><span id="goldLucknow">Loading...</span></p>
-            </div>
-          </div>
-        </div>
-        <!-- Delhi Gold Price -->
-        <div class="col-md-4">
-          <div class="card material-card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">Delhi Gold Price</h5>
-              <p class="card-text"><span id="goldDelhi">Loading...</span></p>
-            </div>
-          </div>
-        </div>
-        <!-- Patna Gold Price -->
-        <div class="col-md-4">
-          <div class="card material-card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">Patna Gold Price</h5>
-              <p class="card-text"><span id="goldPatna">Loading...</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+/* NAVIGATION */
+function showSection(section) {
+  $('#homeSection, #offersSection, #categorySection').hide();
+  if (section === 'home') {
+    $('#homeSection').show();
+  } else if (section === 'offers') {
+    $('#offersSection').show();
+  } else if (section === 'category') {
+    $('#categorySection').show();
+    $('#folderListView').show();
+    $('#folderDetailView').hide();
+  }
+  $("#searchResultsList").empty();
+  $("#searchResults").hide();
+}
 
-    <!-- Category Section (Folders & Search Results) -->
-    <div id="categorySection" style="display:none;">
-      <div class="folders-container">
-        <!-- Search Results Container -->
-        <div id="searchResults" style="display:none;">
-          <h4>Search Results:</h4>
-          <ul class="list-group" id="searchResultsList"></ul>
-        </div>
-        <!-- Folder List View -->
-        <div id="folderListView">
-          <div class="row">
-            <!-- Folder: अवकाश -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card material-card folder-card" data-folder-id="avkaash">
-                <div class="card-body">
-                  <i class="fas fa-folder"></i> अवकाश
-                </div>
-              </div>
-            </div>
-            <!-- Folder: मेडिकल -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card material-card folder-card" data-folder-id="medical">
-                <div class="card-body">
-                  <i class="fas fa-folder"></i> मेडिकल
-                </div>
-              </div>
-            </div>
-            <!-- Folder: विवेचक फाईल -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card material-card folder-card" data-folder-id="vivechak">
-                <div class="card-body">
-                  <i class="fas fa-folder"></i> विवेचक फाईल
-                </div>
-              </div>
-            </div>
-            <!-- Folder: थाना कार्यालय -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card material-card folder-card" data-folder-id="thana">
-                <div class="card-body">
-                  <i class="fas fa-folder"></i> थाना कार्यालय
-                </div>
-              </div>
-            </div>
-            <!-- Folder: नोटिस -->
-            <div class="col-md-6 col-lg-4">
-              <div class="card material-card folder-card" data-folder-id="notice">
-                <div class="card-body">
-                  <i class="fas fa-folder"></i> नोटिस
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Folder Detail View -->
-        <div id="folderDetailView" style="display:none;">
-          <button class="btn btn-secondary mb-2" id="backToFolders">
-            <i class="fas fa-arrow-left"></i> Back
-          </button>
-          <h3 id="folderTitle"></h3>
-          <ul class="list-group" id="folderDetailList"></ul>
-        </div>
-      </div>
-    </div>
-  </div>
+/* SEARCH FUNCTIONALITY */
+function searchFunction(e) {
+  e.preventDefault();
+  showSection('category');
+  var query = $("#searchInput").val();
+  var results = fuse.search(query);
+  $("#searchResultsList").empty();
+  if (results.length > 0) {
+    results.forEach(function(result) {
+      $("#searchResultsList").append(result.item.element);
+    });
+    $("#folderListView").hide();
+    $("#searchResults").show();
+  } else {
+    alert("No matching files found.");
+    $("#folderListView").show();
+    $("#searchResults").hide();
+  }
+}
 
-  <!-- Mobile Bottom Navigation -->
-  <nav class="mobile-bottom-nav">
-    <button class="mobile-nav-btn" onclick="showSection('home')">
-      <i class="fas fa-home"></i><span>Home</span>
-    </button>
-    <button class="mobile-nav-btn" onclick="showSection('category')">
-      <i class="fas fa-folder"></i><span>Category</span>
-    </button>
-    <button class="mobile-nav-btn" onclick="showSection('offers')">
-      <i class="fas fa-tags"></i><span>Offers</span>
-    </button>
-  </nav>
+function resetSearch() {
+  $("#searchInput").val("");
+  $("#clearSearchIcon").hide();
+  $("#searchResultsList").empty();
+  $("#searchResults").hide();
+  $("#folderListView").show();
+}
 
-  <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/919504875076?text=Came%20here%20From%20Police%20Files" target="_blank" class="whatsapp-float">
-    Any Issue?
-  </a>
+/* AGE CALCULATOR */
+function calculateAge() {
+  const dobValue = document.getElementById("dobInput").value;
+  let refValue = document.getElementById("refDateInput").value;
+  if (!dobValue) {
+    alert("Please select your date of birth.");
+    return;
+  }
+  const dob = new Date(dobValue);
+  const refDate = refValue ? new Date(refValue) : new Date();
+  
+  let years = refDate.getFullYear() - dob.getFullYear();
+  let months = refDate.getMonth() - dob.getMonth();
+  let days = refDate.getDate() - dob.getDate();
+  
+  if (days < 0) {
+    months--;
+    const prevMonth = new Date(refDate.getFullYear(), refDate.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+  const totalDays = Math.floor((refDate - dob) / (1000 * 60 * 60 * 24));
+  
+  document.getElementById("ageResult").innerHTML = `
+    Age: ${years} years, ${months} months, ${days} days | Total Days: ${totalDays}
+  `;
+}
 
-  <!-- Modal for Document Preview -->
-  <div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" 
-       aria-labelledby="filePreviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content material-card">
-        <div class="modal-header">
-          <h5 class="modal-title" id="filePreviewModalLabel">File Preview</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true"><i class="fas fa-times"></i></span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <iframe id="filePreviewFrame" class="modal-iframe"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
+/* CONVERTER FUNCTIONS */
+/* IPC to BNS Converter */
+async function fetchIPCtoBNSData() {
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuDAxvhH2oEOrQgMk93bECt-FOPzJME4m6dARFxicpI2RMfM7xd7jdHAM86V2C-RRRqZVPrbc_e9pr/pub?gid=625416711&single=true&output=csv";
+  try {
+    const response = await fetch(sheetUrl);
+    const data = await response.text();
+    const rows = data.split("\n").map(row => row.split(","));
+    let ipcToBnsMap = {};
+    rows.slice(1).forEach(row => {
+      let ipc = row[0].trim();
+      let bns = row[1] ? row[1].trim() : "";
+      if (ipc && bns) {
+        ipcToBnsMap[ipc] = bns;
+      }
+    });
+    return ipcToBnsMap;
+  } catch (error) {
+    console.error("Error fetching IPC-to-BNS data:", error);
+    return {};
+  }
+}
 
-  <!-- External Scripts -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
-  <!-- Flatpickr for improved date inputs -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <!-- Custom JS -->
-  <script src="script.js"></script>
-</body>
-</html>
+async function convertIPCtoBNS() {
+  const inputIPC = document.getElementById("ipcInput").value.trim();
+  const resultField = document.getElementById("ipcResult");
+  if (!inputIPC) {
+    resultField.innerText = "Please enter an IPC section.";
+    return;
+  }
+  const ipcData = await fetchIPCtoBNSData();
+  const bnsEquivalent = ipcData[inputIPC];
+  if (bnsEquivalent) {
+    resultField.innerText = bnsEquivalent;
+  } else {
+    resultField.innerText = "No matching BNS section found.";
+  }
+}
+
+/* CrPC to BNSS Converter */
+async function fetchCrPCtoBNSSData() {
+  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuDAxvhH2oEOrQgMk93bECt-FOPzJME4m6dARFxicpI2RMfM7xd7jdHAM86V2C-RRRqZVPrbc_e9pr/pub?gid=216325542&single=true&output=csv";
+  try {
+    const response = await fetch(sheetUrl);
+    const data = await response.text();
+    const rows = data.split("\n").map(row => row.split(","));
+    let crpcToBnssMap = {};
+    rows.slice(1).forEach(row => {
+      let crpc = row[0].trim();
+      let bnss = row[1] ? row[1].trim() : "";
+      if (crpc && bnss) {
+        crpcToBnssMap[crpc] = bnss;
+      }
+    });
+    return crpcToBnssMap;
+  } catch (error) {
+    console.error("Error fetching CrPC-to-BNSS data:", error);
+    return {};
+  }
+}
+
+async function convertCrPcToBNSS() {
+  const inputCrpc = document.getElementById('crpcInput').value.trim();
+  const resultField = document.getElementById('crpcResult');
+  if (!inputCrpc) {
+    resultField.innerText = "Please enter a CrPC value.";
+    return;
+  }
+  const crpcData = await fetchCrPCtoBNSSData();
+  const bnssEquivalent = crpcData[inputCrpc];
+  if (bnssEquivalent) {
+    resultField.innerText = bnssEquivalent;
+  } else {
+    resultField.innerText = "No matching BNSS section found.";
+  }
+}
+
+/* FOLDER VIEW & OTHER FUNCTIONS */
+$(document).on('click', '.folder-card', function() {
+  var folderId = $(this).data('folder-id');
+  var folderNames = {
+    'avkaash': 'अवकाश',
+    'medical': 'मेडिकल',
+    'vivechak': 'विवेचक फाईल',
+    'thana': 'थाना कार्यालय',
+    'notice': 'नोटिस'
+  };
+  var folderName = folderNames[folderId] || '';
+  $('#folderTitle').text(folderName);
+  $('#folderDetailList').html(generateFilesHTML());
+  $('#folderListView').hide();
+  $('#folderDetailView').show();
+});
+
+$('#backToFolders').on('click', function() {
+  $('#folderDetailView').hide();
+  $('#folderListView').show();
+});
+
+$('#darkModeToggle').on('click', function() {
+  $('body').toggleClass('dark-mode');
+});
+
+function previewFile(url) {
+  $('#filePreviewFrame').attr('src', url);
+  $('#filePreviewModal').modal('show');
+}
+
+function printFile(url) {
+  let printWindow = window.open(url, '_blank');
+  printWindow.onload = function() {
+    printWindow.print();
+  };
+}
+
+async function updateGoldPrices() {
+  const apiKey = 'YOUR_API_KEY';
+  try {
+    const response = await fetch(`https://metals-api.com/api/latest?access_key=${apiKey}&base=USD&symbols=XAU`);
+    const data = await response.json();
+    if (data.success) {
+      const goldPriceUSD = data.rates.XAU;
+      const usdToInr = 82;
+      const goldPriceInr = (goldPriceUSD * usdToInr / 31.1035).toFixed(2);
+      const lucknowPrice = goldPriceInr;
+      const delhiPrice = (parseFloat(goldPriceInr) + 50).toFixed(2);
+      const patnaPrice = (parseFloat(goldPriceInr) - 50).toFixed(2);
+      $('#goldLucknow').text('₹' + lucknowPrice);
+      $('#goldDelhi').text('₹' + delhiPrice);
+      $('#goldPatna').text('₹' + patnaPrice);
+    } else {
+      console.error('API Error:', data);
+      $('#goldLucknow, #goldDelhi, #goldPatna').text('Error fetching price');
+    }
+  } catch (error) {
+    console.error('Error fetching gold prices:', error);
+    $('#goldLucknow, #goldDelhi, #goldPatna').text('Error fetching price');
+  }
+}
+
+updateGoldPrices();
+setInterval(updateGoldPrices, 60000);
