@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <!-- Keep the site mobile-friendly -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Forms/Templates Website</title>
+  <title>Police Files</title>
   
   <!-- Google Fonts for a modern look -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
@@ -18,109 +18,105 @@
   <!-- Flatpickr CSS for date picker -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   
-  <!-- Custom CSS for the modern/material-like design -->
+  <!-- Custom CSS for the modern/material design -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- Top Navigation Bar -->
-  <nav class="navbar modern-navbar">
+  <!-- Premium Header with Title, Search Bar, and Dark Mode Toggle -->
+  <header class="site-header">
     <div class="container">
-      <a class="navbar-brand" href="#">
-        <span class="brand-text">Police Files</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <!-- Left: Navigation links -->
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('home')">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('category')">Category</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('offers')">Offers</a></li>
-        </ul>
-        <!-- Right: Search & Dark Mode Toggle -->
-        <form class="form-inline modern-search" onsubmit="searchFunction(event)">
-          <div class="search-input-wrapper">
-            <input class="form-control search-input" type="search" placeholder="Search files" 
-                   aria-label="Search" id="searchInput" list="fileSuggestions">
-            <span class="clear-search" onclick="resetSearch()">&times;</span>
-          </div>
-          <datalist id="fileSuggestions"></datalist>
-          <button class="btn modern-search-btn" type="submit">Search</button>
-        </form>
-        <label class="switch ml-3 mb-0">
-          <input type="checkbox" id="darkModeSwitch">
-          <span class="slider"></span>
-        </label>
+      <div class="header-content">
+        <h1 class="site-title">Police Files</h1>
+        <!-- Modern Material Search Bar placed between title and dark mode toggle -->
+        <div class="header-search">
+          <form class="form-inline modern-search" onsubmit="searchFunction(event)">
+            <div class="search-input-wrapper">
+              <input class="form-control search-input" type="search" placeholder="Search files" 
+                     aria-label="Search" id="searchInput" list="fileSuggestions">
+              <!-- Only one custom clear/reset icon -->
+              <span id="clearSearchIcon" class="clear-search" onclick="resetSearch()">&times;</span>
+            </div>
+            <datalist id="fileSuggestions"></datalist>
+            <button class="btn modern-search-btn" type="submit">Search</button>
+          </form>
+        </div>
+        <button id="darkModeToggle" class="dark-mode-btn" aria-label="Toggle dark mode">
+          <i class="fas fa-moon"></i>
+        </button>
       </div>
     </div>
-  </nav>
-
-  <div class="container mt-4">
-    <!-- Home Section: IPC/CrPC Converters & Age Calculator -->
+  </header>
+  
+  <!-- Content Sections (no extra section headings at the top) -->
+  <div class="container mt-4 content-area">
+    <!-- Home Section: Three Converters in One Row -->
     <div id="homeSection">
-      <h2>Home</h2>
-      <div class="row">
-        <!-- IPC to BNS Converter -->
-        <div class="col-md-6 converter-section">
-          <h4>IPC to BNS Converter</h4>
-          <div class="form-group">
-            <input type="text" class="form-control" id="ipcInput" placeholder="Enter IPC value">
-          </div>
-          <button class="btn material-btn" onclick="convertIPCtoBNS()">Convert</button>
-          <div class="result"><strong>Result:</strong> <span id="ipcResult"></span></div>
-          <p class="small mt-1">
-            (Based on data from: 
-              <a href="https://bprd.nic.in/uploads/pdf/COMPARISON%20SUMMARY%20BNS%20to%20IPC%20.pdf" target="_blank">
-                BNS to IPC PDF
-              </a>)
-          </p>
-        </div>
-        <!-- CrPc to BNSS Converter -->
-        <div class="col-md-6 converter-section">
-          <h4>CrPc to BNSS Converter</h4>
-          <div class="form-group">
-            <input type="text" class="form-control" id="crpcInput" placeholder="Enter CrPc value">
-          </div>
-          <button class="btn material-btn" onclick="convertCrPcToBNSS()">Convert</button>
-          <div class="result"><strong>Result:</strong> <span id="crpcResult"></span></div>
-          <p class="small mt-1">
-            (Based on data from: 
-              <a href="https://bprd.nic.in/uploads/pdf/Comparison%20summary%20BNSS%20to%20CrPC.pdf" target="_blank">
-                BNSS to CrPC PDF
-              </a>)
-          </p>
-        </div>
-      </div>
-      <!-- Age Calculator Row -->
-      <div class="row">
-        <div class="col-12 calculator-section">
-          <h4>Age Calculator</h4>
-          <div class="form-group">
-            <label for="dobInput">Date of Birth</label>
-            <div class="date-input-wrapper">
-              <input type="text" class="form-control" id="dobInput" placeholder="Select date" readonly>
-              <i class="fas fa-calendar-alt date-icon"></i>
+      <!-- Converter container with fixed padding -->
+      <div class="converter-container">
+        <div class="row converter-row">
+          <!-- IPC to BNS Converter -->
+          <div class="col-md-4 converter-section">
+            <div class="converter-box">
+              <h4>IPC to BNS Converter</h4>
+              <div class="form-group">
+                <input type="text" class="form-control" id="ipcInput" placeholder="Enter IPC value">
+              </div>
+              <button class="btn material-btn" onclick="convertIPCtoBNS()">Convert</button>
+              <div class="result"><strong>Result:</strong> <span id="ipcResult"></span></div>
+              <p class="small mt-1">
+                (Based on data from: 
+                <a href="https://bprd.nic.in/uploads/pdf/COMPARISON%20SUMMARY%20BNS%20to%20IPC%20.pdf" target="_blank">
+                  BNS to IPC PDF
+                </a>)
+              </p>
             </div>
           </div>
-          <div class="form-group">
-            <label for="refDateInput">Calculate Age as of</label>
-            <div class="date-input-wrapper">
-              <input type="text" class="form-control" id="refDateInput" placeholder="Select date" readonly>
-              <i class="fas fa-calendar-alt date-icon"></i>
+          <!-- CrPc to BNSS Converter -->
+          <div class="col-md-4 converter-section">
+            <div class="converter-box">
+              <h4>CrPc to BNSS Converter</h4>
+              <div class="form-group">
+                <input type="text" class="form-control" id="crpcInput" placeholder="Enter CrPc value">
+              </div>
+              <button class="btn material-btn" onclick="convertCrPcToBNSS()">Convert</button>
+              <div class="result"><strong>Result:</strong> <span id="crpcResult"></span></div>
+              <p class="small mt-1">
+                (Based on data from: 
+                <a href="https://bprd.nic.in/uploads/pdf/Comparison%20summary%20BNSS%20to%20CrPC.pdf" target="_blank">
+                  BNSS to CrPC PDF
+                </a>)
+              </p>
             </div>
           </div>
-          <button class="btn material-btn" onclick="calculateAge()">Calculate Age</button>
-          <div id="ageResult" class="result mt-3"></div>
+          <!-- Age Calculator -->
+          <div class="col-md-4 converter-section">
+            <div class="converter-box">
+              <h4>Age Calculator</h4>
+              <div class="form-group">
+                <label for="dobInput">Date of Birth</label>
+                <div class="date-input-wrapper">
+                  <input type="text" class="form-control" id="dobInput" placeholder="Select date" readonly>
+                  <i class="fas fa-calendar-alt date-icon"></i>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="refDateInput">Calculate Age as of</label>
+                <div class="date-input-wrapper">
+                  <input type="text" class="form-control" id="refDateInput" placeholder="Select date" readonly>
+                  <i class="fas fa-calendar-alt date-icon"></i>
+                </div>
+              </div>
+              <button class="btn material-btn" onclick="calculateAge()">Calculate Age</button>
+              <!-- Age result area (no extra ribbon) -->
+              <div id="ageResult" class="result" style="margin-top:10px;"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Offers Section (Gold Prices) -->
     <div id="offersSection" style="display:none;">
-      <h2>Offers</h2>
       <div class="row">
         <!-- Lucknow Gold Price -->
         <div class="col-md-4">
@@ -154,98 +150,86 @@
 
     <!-- Category Section (Folders & Search Results) -->
     <div id="categorySection" style="display:none;">
-      <h2>Category</h2>
-      <!-- Container for Search Results -->
-      <div id="searchResults" style="display:none;">
-        <h4>Search Results:</h4>
-        <ul class="list-group" id="searchResultsList"></ul>
-      </div>
-      <!-- Accordion for Folders -->
-      <div id="foldersAccordion" class="accordion row">
-        <!-- Folder: अवकाश -->
-        <div class="col-md-6 col-lg-4">
-          <div class="card material-card folder-card">
-            <div class="card-header" id="headingAvkaash">
-              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseAvkaash" 
-                      aria-expanded="false" aria-controls="collapseAvkaash">
-                <i class="fas fa-folder"></i> अवकाश
-              </button>
+      <div class="folders-container">
+        <!-- Search Results Container -->
+        <div id="searchResults" style="display:none;">
+          <h4>Search Results:</h4>
+          <ul class="list-group" id="searchResultsList"></ul>
+        </div>
+        <!-- Folder List View -->
+        <div id="folderListView">
+          <div class="row">
+            <!-- Folder: अवकाश -->
+            <div class="col-md-6 col-lg-4">
+              <div class="card material-card folder-card" data-folder-id="avkaash">
+                <div class="card-body">
+                  <i class="fas fa-folder"></i> अवकाश
+                </div>
+              </div>
             </div>
-            <div id="collapseAvkaash" class="collapse" aria-labelledby="headingAvkaash" data-parent="#foldersAccordion">
-              <div class="card-body">
-                <ul class="list-group" id="folder-avkaash-list"></ul>
+            <!-- Folder: मेडिकल -->
+            <div class="col-md-6 col-lg-4">
+              <div class="card material-card folder-card" data-folder-id="medical">
+                <div class="card-body">
+                  <i class="fas fa-folder"></i> मेडिकल
+                </div>
+              </div>
+            </div>
+            <!-- Folder: विवेचक फाईल -->
+            <div class="col-md-6 col-lg-4">
+              <div class="card material-card folder-card" data-folder-id="vivechak">
+                <div class="card-body">
+                  <i class="fas fa-folder"></i> विवेचक फाईल
+                </div>
+              </div>
+            </div>
+            <!-- Folder: थाना कार्यालय -->
+            <div class="col-md-6 col-lg-4">
+              <div class="card material-card folder-card" data-folder-id="thana">
+                <div class="card-body">
+                  <i class="fas fa-folder"></i> थाना कार्यालय
+                </div>
+              </div>
+            </div>
+            <!-- Folder: नोटिस -->
+            <div class="col-md-6 col-lg-4">
+              <div class="card material-card folder-card" data-folder-id="notice">
+                <div class="card-body">
+                  <i class="fas fa-folder"></i> नोटिस
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Folder: मेडिकल -->
-        <div class="col-md-6 col-lg-4">
-          <div class="card material-card folder-card">
-            <div class="card-header" id="headingMedical">
-              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseMedical" 
-                      aria-expanded="false" aria-controls="collapseMedical">
-                <i class="fas fa-folder"></i> मेडिकल
-              </button>
-            </div>
-            <div id="collapseMedical" class="collapse" aria-labelledby="headingMedical" data-parent="#foldersAccordion">
-              <div class="card-body">
-                <ul class="list-group" id="folder-medical-list"></ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Folder: विवेचक फाईल -->
-        <div class="col-md-6 col-lg-4">
-          <div class="card material-card folder-card">
-            <div class="card-header" id="headingVivechak">
-              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseVivechak" 
-                      aria-expanded="false" aria-controls="collapseVivechak">
-                <i class="fas fa-folder"></i> विवेचक फाईल
-              </button>
-            </div>
-            <div id="collapseVivechak" class="collapse" aria-labelledby="headingVivechak" data-parent="#foldersAccordion">
-              <div class="card-body">
-                <ul class="list-group" id="folder-vivechak-list"></ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Folder: थाना कार्यालय -->
-        <div class="col-md-6 col-lg-4">
-          <div class="card material-card folder-card">
-            <div class="card-header" id="headingThana">
-              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseThana" 
-                      aria-expanded="false" aria-controls="collapseThana">
-                <i class="fas fa-folder"></i> थाना कार्यालय
-              </button>
-            </div>
-            <div id="collapseThana" class="collapse" aria-labelledby="headingThana" data-parent="#foldersAccordion">
-              <div class="card-body">
-                <ul class="list-group" id="folder-thana-list"></ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Folder: नोटिस -->
-        <div class="col-md-6 col-lg-4">
-          <div class="card material-card folder-card">
-            <div class="card-header" id="headingNotice">
-              <button class="folder-btn" type="button" data-toggle="collapse" data-target="#collapseNotice" 
-                      aria-expanded="false" aria-controls="collapseNotice">
-                <i class="fas fa-folder"></i> नोटिस
-              </button>
-            </div>
-            <div id="collapseNotice" class="collapse" aria-labelledby="headingNotice" data-parent="#foldersAccordion">
-              <div class="card-body">
-                <ul class="list-group" id="folder-notice-list"></ul>
-              </div>
-            </div>
-          </div>
+        <!-- Folder Detail View -->
+        <div id="folderDetailView" style="display:none;">
+          <button class="btn btn-secondary mb-2" id="backToFolders">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <h3 id="folderTitle"></h3>
+          <ul class="list-group" id="folderDetailList"></ul>
         </div>
       </div>
-      <!-- End of accordion -->
     </div>
   </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <button class="mobile-nav-btn" onclick="showSection('home')">
+      <i class="fas fa-home"></i><span>Home</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showSection('category')">
+      <i class="fas fa-folder"></i><span>Category</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="showSection('offers')">
+      <i class="fas fa-tags"></i><span>Offers</span>
+    </button>
+  </nav>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/919504875076?text=Hello,%20I%20need%20assistance." target="_blank" class="whatsapp-float">
+    Any Issue?
+  </a>
 
   <!-- Modal for Document Preview -->
   <div class="modal fade" id="filePreviewModal" tabindex="-1" role="dialog" 
