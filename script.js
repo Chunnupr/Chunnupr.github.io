@@ -1,103 +1,79 @@
-// script.js
-
-// FILE LIST GENERATION
-function generateFilesHTML() {
+/* Helper: Returns HTML snippet for a single file entry */
+function getFileHTML(index) {
   const fileId = "1F7Imkz5iE5eOIWfJUsOpvV9ijQUc32-J";
   const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
   const previewUrl  = `https://drive.google.com/file/d/${fileId}/preview`;
+  return `
+    <li class="list-group-item" data-file-name="File ${index}" data-file-tags="template, form, sample">
+      <div class="d-flex justify-content-start">
+        <button class="btn btn-sm btn-info mr-2" onclick="previewFile('${previewUrl}')">Preview</button>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <span>File ${index}</span>
+        <span>
+          <a href="${downloadUrl}" class="btn btn-sm btn-success" target="_blank">Download</a>
+          <button class="btn btn-sm btn-secondary" onclick="printFile('${previewUrl}')">Print</button>
+        </span>
+      </div>
+    </li>
+  `;
+}
+
+/* FILE LIST GENERATION: Returns HTML for all 5 files */
+function generateFilesHTML() {
   let html = "";
   for (let i = 1; i <= 5; i++) {
-    html += `
-      <li class="list-group-item" data-file-name="File ${i}" data-file-tags="template, form, sample">
-        <div class="d-flex justify-content-start">
-          <button class="btn btn-sm btn-info mr-2" onclick="previewFile('${previewUrl}')">Preview</button>
-        </div>
-        <div class="d-flex justify-content-between align-items-center mt-2">
-          <span>File ${i}</span>
-          <span>
-            <a href="${downloadUrl}" class="btn btn-sm btn-success" target="_blank">Download</a>
-            <button class="btn btn-sm btn-secondary" onclick="printFile('${previewUrl}')">Print</button>
-          </span>
-        </div>
-      </li>
-    `;
+    html += getFileHTML(i);
   }
   return html;
 }
 
-// Build file data for Fuse.js fuzzy search
+/* Build file data for Fuse.js fuzzy search */
 function buildFilesData() {
   let filesData = [];
-  $('#foldersAccordion li.list-group-item').each(function() {
-    let fileName = $(this).attr('data-file-name');
-    let fileTags = $(this).attr('data-file-tags');
+  for (let i = 1; i <= 5; i++) {
     filesData.push({ 
-      name: fileName, 
-      tags: fileTags, 
-      element: $(this).clone() 
+      name: `File ${i}`, 
+      tags: "template, form, sample", 
+      element: getFileHTML(i)
     });
-  });
+  }
   return filesData;
 }
 
 var fuse; // Fuse search instance
 
 $(document).ready(function() {
-  // Inject file items into each folder
-  $('#folder-avkaash-list').html(generateFilesHTML());
-  $('#folder-medical-list').html(generateFilesHTML());
-  $('#folder-vivechak-list').html(generateFilesHTML());
-  $('#folder-thana-list').html(generateFilesHTML());
-  $('#folder-notice-list').html(generateFilesHTML());
-  
-  // Build the datalist for search suggestions
+  // Build the datalist for search suggestions from static file data.
+  let filesData = buildFilesData();
   let suggestionsSet = new Set();
-  $('#categorySection li.list-group-item').each(function() {
-    let name = $(this).attr('data-file-name');
-    if (name) suggestionsSet.add(name);
-    let tags = $(this).attr('data-file-tags');
-    if (tags) {
-      tags.split(',').forEach(tag => suggestionsSet.add(tag.trim()));
-    }
+  filesData.forEach(item => {
+    suggestionsSet.add(item.name);
   });
   let suggestionsList = Array.from(suggestionsSet).filter(s => s && s.length);
   let optionsHTML = suggestionsList.map(s => `<option value="${s}">`).join('');
   $('#fileSuggestions').html(optionsHTML);
   
-  // Build filesData and initialize Fuse for fuzzy search
-  let filesData = buildFilesData();
+  // Initialize Fuse with the static files data.
   let fuseOptions = {
     keys: ["name", "tags"],
     threshold: 0.4
   };
   fuse = new Fuse(filesData, fuseOptions);
   
-  // Handle search input for suggestions and clear icon
+  // Search input suggestions
   $("#searchInput").on("input", function() {
     var query = $(this).val();
     if (query.length > 0) {
-      $(".clear-search").show();
+      $("#clearSearchIcon").show();
       var results = fuse.search(query);
       var suggestions = results.map(result => result.item.name);
       var optionsHTML = suggestions.map(s => `<option value="${s}">`).join('');
       $("#fileSuggestions").html(optionsHTML);
     } else {
-      $(".clear-search").hide();
+      $("#clearSearchIcon").hide();
       $("#fileSuggestions").empty();
     }
-  });
-  
-  // Dark/Light Mode Toggle
-  $("#darkModeSwitch").on("change", function() {
-    var isDark = $(this).prop("checked");
-    $("body").toggleClass("dark-mode", isDark);
-    $(".modern-navbar").toggleClass("dark-mode", isDark);
-    $(".material-card").toggleClass("dark-mode", isDark);
-  });
-  
-  // Ensure that only one folder is expanded at a time
-  $('.folder-btn').on('click', function() {
-    $('.accordion .collapse').not($(this).attr('data-target')).collapse('hide');
   });
   
   // Initialize Flatpickr for the Age Calculator inputs
@@ -115,7 +91,7 @@ $(document).ready(function() {
   });
 });
 
-// NAVIGATION
+/* NAVIGATION */
 function showSection(section) {
   $('#homeSection, #offersSection, #categorySection').hide();
   if (section === 'home') {
@@ -124,12 +100,14 @@ function showSection(section) {
     $('#offersSection').show();
   } else if (section === 'category') {
     $('#categorySection').show();
-    $('#foldersAccordion').show();
-    $('#searchResults').hide();
+    $('#folderListView').show();
+    $('#folderDetailView').hide();
   }
+  $("#searchResultsList").empty();
+  $("#searchResults").hide();
 }
 
-// SEARCH FUNCTIONALITY
+/* SEARCH FUNCTIONALITY */
 function searchFunction(e) {
   e.preventDefault();
   showSection('category');
@@ -138,26 +116,26 @@ function searchFunction(e) {
   $("#searchResultsList").empty();
   if (results.length > 0) {
     results.forEach(function(result) {
+      // Use the full file HTML (which includes download/print options)
       $("#searchResultsList").append(result.item.element);
     });
-    $("#foldersAccordion").hide();
+    $("#folderListView").hide();
     $("#searchResults").show();
   } else {
     alert("No matching files found.");
-    $("#foldersAccordion").show();
+    $("#folderListView").show();
     $("#searchResults").hide();
   }
 }
-
 function resetSearch() {
   $("#searchInput").val("");
-  $(".clear-search").hide();
+  $("#clearSearchIcon").hide();
   $("#searchResultsList").empty();
   $("#searchResults").hide();
-  $("#foldersAccordion").show();
+  $("#folderListView").show();
 }
 
-// AGE CALCULATOR
+/* AGE CALCULATOR */
 function calculateAge() {
   const dobValue = document.getElementById("dobInput").value;
   let refValue = document.getElementById("refDateInput").value;
@@ -184,13 +162,11 @@ function calculateAge() {
   const totalDays = Math.floor((refDate - dob) / (1000 * 60 * 60 * 24));
   
   document.getElementById("ageResult").innerHTML = `
-    <p>Age: ${years} years, ${months} months, ${days} days</p>
-    <p>Total Days: ${totalDays}</p>
+    Age: ${years} years, ${months} months, ${days} days | Total Days: ${totalDays}
   `;
 }
 
-// IPC/CrPC Converter Functions
-
+/* IPC/CrPC Converter Functions */
 async function fetchIPCtoBNSData() {
   const sheetUrl = "YOUR_SHEET_LINK";
   try {
@@ -211,7 +187,6 @@ async function fetchIPCtoBNSData() {
     return {};
   }
 }
-
 async function convertIPCtoBNS() {
   const inputIPC = document.getElementById("ipcInput").value.trim();
   const resultField = document.getElementById("ipcResult");
@@ -227,7 +202,6 @@ async function convertIPCtoBNS() {
     resultField.innerText = "No matching BNS section found.";
   }
 }
-
 function convertCrPcToBNSS() {
   let input = parseFloat(document.getElementById('crpcInput').value);
   if (isNaN(input)) {
@@ -238,7 +212,6 @@ function convertCrPcToBNSS() {
   let result = input * conversionFactor;
   document.getElementById('crpcResult').innerText = result.toFixed(2);
 }
-
 async function updateGoldPrices() {
   const apiKey = 'YOUR_API_KEY';
   try {
@@ -265,15 +238,39 @@ async function updateGoldPrices() {
 }
 updateGoldPrices();
 setInterval(updateGoldPrices, 60000);
-
 function previewFile(url) {
   $('#filePreviewFrame').attr('src', url);
   $('#filePreviewModal').modal('show');
 }
-
 function printFile(url) {
   let printWindow = window.open(url, '_blank');
   printWindow.onload = function() {
     printWindow.print();
   };
 }
+
+/* Folder View: Clicking a folder shows detail view */
+$(document).on('click', '.folder-card', function() {
+  var folderId = $(this).data('folder-id');
+  var folderNames = {
+    'avkaash': 'अवकाश',
+    'medical': 'मेडिकल',
+    'vivechak': 'विवेचक फाईल',
+    'thana': 'थाना कार्यालय',
+    'notice': 'नोटिस'
+  };
+  var folderName = folderNames[folderId] || '';
+  $('#folderTitle').text(folderName);
+  $('#folderDetailList').html(generateFilesHTML());
+  $('#folderListView').hide();
+  $('#folderDetailView').show();
+});
+$('#backToFolders').on('click', function() {
+  $('#folderDetailView').hide();
+  $('#folderListView').show();
+});
+
+/* Dark Mode Toggle */
+$('#darkModeToggle').on('click', function() {
+  $('body').toggleClass('dark-mode');
+});
