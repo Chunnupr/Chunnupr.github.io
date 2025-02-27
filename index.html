@@ -47,11 +47,10 @@
     </div>
   </header>
   
-  <!-- Content Sections (no extra section headings at the top) -->
+  <!-- Content Sections -->
   <div class="container mt-4 content-area">
-    <!-- Home Section: Three Converters in One Row -->
+    <!-- Home Section: Three Converters in a Single Row -->
     <div id="homeSection">
-      <!-- Converter container with fixed padding -->
       <div class="converter-container">
         <div class="row converter-row">
           <!-- IPC to BNS Converter -->
@@ -62,7 +61,7 @@
                 <input type="text" class="form-control" id="ipcInput" placeholder="Enter IPC value">
               </div>
               <button class="btn material-btn" onclick="convertIPCtoBNS()">Convert</button>
-              <div class="result"><strong>Result:</strong> <span id="ipcResult"></span></div>
+              <div class="result mt-2"><strong>Result:</strong> <span id="ipcResult"></span></div>
               <p class="small mt-1">
                 (Based on data from: 
                 <a href="https://bprd.nic.in/uploads/pdf/COMPARISON%20SUMMARY%20BNS%20to%20IPC%20.pdf" target="_blank">
@@ -71,15 +70,15 @@
               </p>
             </div>
           </div>
-          <!-- CrPc to BNSS Converter -->
+          <!-- CrPC to BNSS Converter -->
           <div class="col-md-4 converter-section">
             <div class="converter-box">
-              <h4>CrPc to BNSS Converter</h4>
+              <h4>CrPC to BNSS Converter</h4>
               <div class="form-group">
                 <input type="text" class="form-control" id="crpcInput" placeholder="Enter CrPc value">
               </div>
               <button class="btn material-btn" onclick="convertCrPcToBNSS()">Convert</button>
-              <div class="result"><strong>Result:</strong> <span id="crpcResult"></span></div>
+              <div class="result mt-2"><strong>Result:</strong> <span id="crpcResult"></span></div>
               <p class="small mt-1">
                 (Based on data from: 
                 <a href="https://bprd.nic.in/uploads/pdf/Comparison%20summary%20BNSS%20to%20CrPC.pdf" target="_blank">
@@ -90,25 +89,30 @@
           </div>
           <!-- Age Calculator -->
           <div class="col-md-4 converter-section">
-            <div class="converter-box">
+            <div class="converter-box age-calculator">
               <h4>Age Calculator</h4>
-              <div class="form-group">
-                <label for="dobInput">Date of Birth</label>
-                <div class="date-input-wrapper">
-                  <input type="text" class="form-control" id="dobInput" placeholder="Select date" readonly>
-                  <i class="fas fa-calendar-alt date-icon"></i>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="dobInput">Date of Birth</label>
+                    <div class="date-input-wrapper">
+                      <input type="text" class="form-control" id="dobInput" placeholder="Select date" readonly>
+                      <i class="fas fa-calendar-alt date-icon"></i>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="refDateInput">Calculate Age as of</label>
-                <div class="date-input-wrapper">
-                  <input type="text" class="form-control" id="refDateInput" placeholder="Select date" readonly>
-                  <i class="fas fa-calendar-alt date-icon"></i>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="refDateInput">As of</label>
+                    <div class="date-input-wrapper">
+                      <input type="text" class="form-control" id="refDateInput" placeholder="Select date" readonly>
+                      <i class="fas fa-calendar-alt date-icon"></i>
+                    </div>
+                  </div>
                 </div>
               </div>
               <button class="btn material-btn" onclick="calculateAge()">Calculate Age</button>
-              <!-- Age result area (no extra ribbon) -->
-              <div id="ageResult" class="result" style="margin-top:10px;"></div>
+              <div id="ageResult" class="result mt-2"></div>
             </div>
           </div>
         </div>
@@ -227,7 +231,7 @@
   </nav>
 
   <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/919504875076?text=Hello,%20I%20need%20assistance." target="_blank" class="whatsapp-float">
+  <a href="https://wa.me/919504875076?text=Came%20here%20From%20Police%20Files" target="_blank" class="whatsapp-float">
     Any Issue?
   </a>
 
