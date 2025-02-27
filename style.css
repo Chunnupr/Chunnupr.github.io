@@ -143,7 +143,6 @@ body.dark-mode .btn:hover {
   border: 1px solid #eee;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  height: 400px; /* Fixed equal area for each converter */
   overflow: auto;
 }
 .result {
@@ -151,7 +150,6 @@ body.dark-mode .btn:hover {
   font-size: 1rem;
 }
 .material-btn {
-  /* The button styles now inherit the gradient defined above */
   padding: 10px 20px;
   border-radius: 4px;
 }
@@ -163,6 +161,16 @@ body.dark-mode .btn:hover {
 }
 .material-card:hover {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Age Calculator Specific Styling for Light Theme */
+.converter-box.age-calculator label {
+  color: #212121;
+  font-weight: 600;
+}
+.converter-box.age-calculator input,
+.converter-box.age-calculator button {
+  color: inherit;
 }
 
 /* Folder Cards */
@@ -214,6 +222,53 @@ body.dark-mode .list-group-item {
   height: 80vh;
 }
 
+/* Additional Adaptability & Transition for Dark/Light Theme */
+body, .btn, .material-btn, .modern-search-btn, .search-input, .card, .folder-card .card-body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+body.dark-mode a {
+  color: #90caf9;
+}
+
+/* Mobile Bottom Navigation - Modern Interaction */
+.mobile-nav-btn {
+  background: none;
+  border: none;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #333;
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+.mobile-nav-btn:focus,
+.mobile-nav-btn:active {
+  outline: none;
+  box-shadow: none;
+  transform: scale(0.95);
+}
+.mobile-nav-btn i {
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+/* Mobile Bottom Navigation Container */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+  z-index: 999;
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 /* Dark Mode Overrides */
 body.dark-mode {
   background-color: #303030;
@@ -234,45 +289,4 @@ body.dark-mode .material-card {
 body.dark-mode .folder-card .card-body {
   background-color: #303030;
   color: #fff;
-}
-
-/* Mobile Bottom Navigation */
-.mobile-bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #fff;
-  border-top: 1px solid #eee;
-  box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-  z-index: 999;
-  height: 60px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-.mobile-nav-btn {
-  background: none;
-  border: none;
-  outline: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #333;
-  font-size: 14px;
-}
-.mobile-nav-btn i {
-  font-size: 20px;
-  margin-bottom: 2px;
-}
-
-/* Responsive Tweaks */
-@media (max-width: 576px) {
-  .header-content {
-    flex-direction: column;
-    align-items: center;
-  }
-  .header-search {
-    margin: 10px 0;
-  }
 }
