@@ -18,7 +18,7 @@
   <!-- Flatpickr CSS for date picker -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   
-  <!-- Custom CSS for the modern/material design -->
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -27,13 +27,11 @@
     <div class="container">
       <div class="header-content">
         <h1 class="site-title">Police Files</h1>
-        <!-- Modern Material Search Bar placed between title and dark mode toggle -->
+        <!-- Modern Material Search Bar -->
         <div class="header-search">
           <form class="form-inline modern-search" onsubmit="searchFunction(event)">
             <div class="search-input-wrapper">
-              <input class="form-control search-input" type="search" placeholder="Search files" 
-                     aria-label="Search" id="searchInput" list="fileSuggestions">
-              <!-- Only one custom clear/reset icon -->
+              <input class="form-control search-input" type="search" placeholder="Search files" aria-label="Search" id="searchInput" list="fileSuggestions">
               <span id="clearSearchIcon" class="clear-search" onclick="resetSearch()">&times;</span>
             </div>
             <datalist id="fileSuggestions"></datalist>
@@ -139,7 +137,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- Button text updated to "Convert" for uniformity -->
                   <button class="btn material-btn" onclick="calculateAge()">Convert</button>
                   <div id="ageResult" class="result mt-2"></div>
                 </div>
@@ -150,10 +147,9 @@
       </div>
     </div>
 
-    <!-- Offers Section (Gold Prices) -->
-    <div id="offersSection" style="display:none;">
+    <!-- Updates Section (formerly Offers) -->
+    <div id="updatesSection" style="display:none;">
       <div class="row">
-        <!-- Lucknow Gold Price -->
         <div class="col-md-4">
           <div class="card material-card mb-3">
             <div class="card-body">
@@ -162,7 +158,6 @@
             </div>
           </div>
         </div>
-        <!-- Delhi Gold Price -->
         <div class="col-md-4">
           <div class="card material-card mb-3">
             <div class="card-body">
@@ -171,7 +166,6 @@
             </div>
           </div>
         </div>
-        <!-- Patna Gold Price -->
         <div class="col-md-4">
           <div class="card material-card mb-3">
             <div class="card-body">
@@ -226,11 +220,11 @@
                 </div>
               </div>
             </div>
-            <!-- Folder: नोटिस -->
+            <!-- Folder: अन्य (from CSV) -->
             <div class="col-md-6 col-lg-4">
               <div class="card material-card folder-card" data-folder-id="notice">
                 <div class="card-body">
-                  <i class="fas fa-folder"></i> नोटिस
+                  <i class="fas fa-folder"></i> अन्य
                 </div>
               </div>
             </div>
@@ -256,8 +250,8 @@
     <button class="mobile-nav-btn" onclick="showSection('category')">
       <i class="fas fa-folder"></i><span>Category</span>
     </button>
-    <button class="mobile-nav-btn" onclick="showSection('offers')">
-      <i class="fas fa-tags"></i><span>Offers</span>
+    <button class="mobile-nav-btn" onclick="showSection('updates')">
+      <i class="fas fa-bell"></i><span>Updates</span>
     </button>
   </nav>
 
@@ -289,7 +283,6 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
-  <!-- Flatpickr for improved date inputs -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <!-- Custom JS -->
   <script src="script.js"></script>
