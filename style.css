@@ -109,34 +109,39 @@ body {
   transform: scale(1.05);
 }
 
-/* Button Backgrounds for Dark Theme */
+/* Button Backgrounds for Dark Mode - using a deeper gradient */
 body.dark-mode .material-btn,
 body.dark-mode .modern-search-btn,
 body.dark-mode .btn {
-  background: linear-gradient(45deg, #90caf9, #a1cfff);
-  color: #212121;
+  background: linear-gradient(45deg, #4a90e2, #3a78c2);
+  color: #fff;
   transition: background 0.3s ease, transform 0.2s ease;
 }
 body.dark-mode .material-btn:hover,
 body.dark-mode .modern-search-btn:hover,
 body.dark-mode .btn:hover {
-  background: linear-gradient(45deg, #77b9f2, #8dcfff);
+  background: linear-gradient(45deg, #3a78c2, #3265a0);
   transform: scale(1.05);
 }
 
-/* Converter Container for fixed padding */
+/* Accordion Header (Converter Titles) */
+/* In light mode, show dark text for clarity */
+.card-header .converter-toggle {
+  color: #212121;
+  font-weight: bold;
+  text-decoration: none;
+}
+body.dark-mode .card-header .converter-toggle {
+  color: #fff !important;
+}
+
+/* Converter Container with extra bottom padding to avoid mobile nav overlap */
 .converter-container {
   padding: 20px;
+  padding-bottom: 100px;
 }
 
 /* Converter & Card Sections */
-.converter-row {
-  display: flex;
-  flex-wrap: wrap;
-}
-.converter-section {
-  margin-bottom: 30px;
-}
 .converter-box {
   background: #fff;
   padding: 20px;
@@ -148,11 +153,18 @@ body.dark-mode .btn:hover {
 .result {
   margin-top: 10px;
   font-size: 1rem;
+  color: #212121;
+}
+body.dark-mode .result {
+  color: #fff;
+  text-shadow: 1px 1px 2px #000;
 }
 .material-btn {
   padding: 10px 20px;
   border-radius: 4px;
 }
+
+/* Material Card */
 .material-card {
   background-color: #fff;
   border-radius: 2px;
@@ -184,7 +196,7 @@ body.dark-mode .btn:hover {
   font-size: 1.1rem;
 }
 
-/* Optimize file names for dark theme */
+/* Optimize file names for dark mode */
 body.dark-mode .list-group-item {
   background-color: #3a3a3a;
   color: #ffffff;
@@ -196,7 +208,7 @@ body.dark-mode .list-group-item {
   padding-bottom: 80px;
 }
 
-/* Floating WhatsApp Button */
+/* Floating WhatsApp Button (Any Issue?) */
 .whatsapp-float {
   position: fixed;
   bottom: 80px;
@@ -213,6 +225,10 @@ body.dark-mode .list-group-item {
 }
 .whatsapp-float:hover {
   background-color: #1ebe57;
+}
+body.dark-mode .whatsapp-float {
+  /* Adding a subtle text shadow for clarity in dark mode */
+  text-shadow: 1px 1px 2px #000;
 }
 
 /* Modal iframe */
@@ -252,6 +268,15 @@ body.dark-mode a {
   font-size: 20px;
   margin-bottom: 2px;
 }
+/* Adjust mobile nav button text in dark mode */
+body.dark-mode .mobile-nav-btn {
+  color: #ccc;
+}
+/* Dark mode override for the mobile bottom nav container */
+body.dark-mode .mobile-bottom-nav {
+  background-color: #424242;
+  border-top: 1px solid #666;
+}
 
 /* Mobile Bottom Navigation Container */
 .mobile-bottom-nav {
@@ -269,7 +294,7 @@ body.dark-mode a {
   align-items: center;
 }
 
-/* Dark Mode Overrides */
+/* Dark Mode Overrides for overall body */
 body.dark-mode {
   background-color: #303030;
   color: #e0e0e0;
@@ -289,4 +314,16 @@ body.dark-mode .material-card {
 body.dark-mode .folder-card .card-body {
   background-color: #303030;
   color: #fff;
+}
+
+/* Shake Animation for Converter Results */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+.shake {
+  animation: shake 0.5s;
 }
