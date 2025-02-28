@@ -18,6 +18,12 @@
   <!-- Flatpickr CSS for date picker -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3f51b5">
+  <!-- Optional: Windows tile configuration -->
+  <meta name="msapplication-config" content="browserconfig.xml" />
+  
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -220,7 +226,7 @@
                 </div>
               </div>
             </div>
-            <!-- Folder: अन्य (from CSV) -->
+            <!-- Folder: अन्य -->
             <div class="col-md-6 col-lg-4">
               <div class="card material-card folder-card" data-folder-id="notice">
                 <div class="card-body">
@@ -286,5 +292,18 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <!-- Custom JS -->
   <script src="script.js"></script>
+  
+  <!-- Register Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function(err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
