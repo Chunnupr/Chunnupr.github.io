@@ -401,7 +401,7 @@ function printFile(url) {
 }
 
 async function updateGoldPrices() {
-  const apiKey = 'YOUR_API_KEY';
+  const apiKey = 'YOUR_API_KEY'; // Replace with your actual API key.
   try {
     const response = await fetch(`https://metals-api.com/api/latest?access_key=${apiKey}&base=USD&symbols=XAU`);
     const data = await response.json();
