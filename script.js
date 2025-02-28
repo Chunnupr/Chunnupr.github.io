@@ -161,9 +161,13 @@ function calculateAge() {
   }
   const totalDays = Math.floor((refDate - dob) / (1000 * 60 * 60 * 24));
   
-  document.getElementById("ageResult").innerHTML = `
+  const ageResultEl = document.getElementById("ageResult");
+  ageResultEl.innerHTML = `
     Age: ${years} years, ${months} months, ${days} days | Total Days: ${totalDays}
   `;
+  // Apply shake animation to the result
+  ageResultEl.classList.add("shake");
+  setTimeout(() => ageResultEl.classList.remove("shake"), 500);
 }
 
 /* CONVERTER FUNCTIONS */
@@ -194,6 +198,8 @@ async function convertIPCtoBNS() {
   const resultField = document.getElementById("ipcResult");
   if (!inputIPC) {
     resultField.innerText = "Please enter an IPC section.";
+    resultField.classList.add("shake");
+    setTimeout(() => resultField.classList.remove("shake"), 500);
     return;
   }
   const ipcData = await fetchIPCtoBNSData();
@@ -203,6 +209,8 @@ async function convertIPCtoBNS() {
   } else {
     resultField.innerText = "No matching BNS section found.";
   }
+  resultField.classList.add("shake");
+  setTimeout(() => resultField.classList.remove("shake"), 500);
 }
 
 /* CrPC to BNSS Converter */
@@ -232,6 +240,8 @@ async function convertCrPcToBNSS() {
   const resultField = document.getElementById('crpcResult');
   if (!inputCrpc) {
     resultField.innerText = "Please enter a CrPC value.";
+    resultField.classList.add("shake");
+    setTimeout(() => resultField.classList.remove("shake"), 500);
     return;
   }
   const crpcData = await fetchCrPCtoBNSSData();
@@ -241,6 +251,8 @@ async function convertCrPcToBNSS() {
   } else {
     resultField.innerText = "No matching BNSS section found.";
   }
+  resultField.classList.add("shake");
+  setTimeout(() => resultField.classList.remove("shake"), 500);
 }
 
 /* FOLDER VIEW & OTHER FUNCTIONS */
