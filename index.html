@@ -49,73 +49,104 @@
   
   <!-- Content Sections -->
   <div class="container mt-4 content-area">
-    <!-- Home Section: Three Converters in a Single Row -->
+    <!-- Home Section: Converters as an accordion -->
     <div id="homeSection">
       <div class="converter-container">
-        <div class="row converter-row">
-          <!-- IPC to BNS Converter -->
-          <div class="col-md-4 converter-section">
-            <div class="converter-box">
-              <h4>IPC to BNS Converter</h4>
-              <div class="form-group">
-                <input type="text" class="form-control" id="ipcInput" placeholder="Enter IPC value">
-              </div>
-              <button class="btn material-btn" onclick="convertIPCtoBNS()">Convert</button>
-              <div class="result mt-2"><strong>Result:</strong> <span id="ipcResult"></span></div>
-              <p class="small mt-1">
-                (Based on data from: 
-                <a href="https://bprd.nic.in/uploads/pdf/COMPARISON%20SUMMARY%20BNS%20to%20IPC%20.pdf" target="_blank">
-                  BNS to IPC PDF
-                </a>)
-              </p>
+        <div id="converterAccordion" class="accordion">
+          <!-- IPC to BNS Converter Card -->
+          <div class="card">
+            <div class="card-header" id="headingIPC">
+              <h4 class="mb-0">
+                <button class="btn btn-link converter-toggle collapsed" data-toggle="collapse" data-target="#collapseIPC" aria-expanded="false" aria-controls="collapseIPC">
+                  IPC to BNS Converter
+                </button>
+              </h4>
             </div>
-          </div>
-          <!-- CrPC to BNSS Converter -->
-          <div class="col-md-4 converter-section">
-            <div class="converter-box">
-              <h4>CrPC to BNSS Converter</h4>
-              <div class="form-group">
-                <input type="text" class="form-control" id="crpcInput" placeholder="Enter CrPc value">
-              </div>
-              <button class="btn material-btn" onclick="convertCrPcToBNSS()">Convert</button>
-              <div class="result mt-2"><strong>Result:</strong> <span id="crpcResult"></span></div>
-              <p class="small mt-1">
-                (Based on data from: 
-                <a href="https://bprd.nic.in/uploads/pdf/Comparison%20summary%20BNSS%20to%20CrPC.pdf" target="_blank">
-                  BNSS to CrPC PDF
-                </a>)
-              </p>
-            </div>
-          </div>
-          <!-- Age Calculator -->
-          <div class="col-md-4 converter-section">
-            <div class="converter-box age-calculator">
-              <h4>Age Calculator</h4>
-              <div class="row">
-                <div class="col-6">
+            <div id="collapseIPC" class="collapse" aria-labelledby="headingIPC" data-parent="#converterAccordion">
+              <div class="card-body">
+                <div class="converter-box">
                   <div class="form-group">
-                    <label for="dobInput">Date of Birth</label>
-                    <div class="date-input-wrapper">
-                      <input type="text" class="form-control" id="dobInput" placeholder="Select date" readonly>
-                      <i class="fas fa-calendar-alt date-icon"></i>
-                    </div>
+                    <input type="text" class="form-control" id="ipcInput" placeholder="Enter IPC value">
                   </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="refDateInput">As of</label>
-                    <div class="date-input-wrapper">
-                      <input type="text" class="form-control" id="refDateInput" placeholder="Select date" readonly>
-                      <i class="fas fa-calendar-alt date-icon"></i>
-                    </div>
-                  </div>
+                  <button class="btn material-btn" onclick="convertIPCtoBNS()">Convert</button>
+                  <div class="result mt-2"><strong>Result:</strong> <span id="ipcResult"></span></div>
+                  <p class="small mt-1">
+                    (Based on data from: 
+                    <a href="https://bprd.nic.in/uploads/pdf/COMPARISON%20SUMMARY%20BNS%20to%20IPC%20.pdf" target="_blank">
+                      BNS to IPC PDF
+                    </a>)
+                  </p>
                 </div>
               </div>
-              <button class="btn material-btn" onclick="calculateAge()">Calculate Age</button>
-              <div id="ageResult" class="result mt-2"></div>
             </div>
           </div>
-        </div>
+          <!-- CrPC to BNSS Converter Card -->
+          <div class="card">
+            <div class="card-header" id="headingCrPC">
+              <h4 class="mb-0">
+                <button class="btn btn-link converter-toggle collapsed" data-toggle="collapse" data-target="#collapseCrPC" aria-expanded="false" aria-controls="collapseCrPC">
+                  CrPC to BNSS Converter
+                </button>
+              </h4>
+            </div>
+            <div id="collapseCrPC" class="collapse" aria-labelledby="headingCrPC" data-parent="#converterAccordion">
+              <div class="card-body">
+                <div class="converter-box">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="crpcInput" placeholder="Enter CrPc value">
+                  </div>
+                  <button class="btn material-btn" onclick="convertCrPcToBNSS()">Convert</button>
+                  <div class="result mt-2"><strong>Result:</strong> <span id="crpcResult"></span></div>
+                  <p class="small mt-1">
+                    (Based on data from: 
+                    <a href="https://bprd.nic.in/uploads/pdf/Comparison%20summary%20BNSS%20to%20CrPC.pdf" target="_blank">
+                      BNSS to CrPC PDF
+                    </a>)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Age Calculator Card -->
+          <div class="card">
+            <div class="card-header" id="headingAge">
+              <h4 class="mb-0">
+                <button class="btn btn-link converter-toggle collapsed" data-toggle="collapse" data-target="#collapseAge" aria-expanded="false" aria-controls="collapseAge">
+                  Age Calculator
+                </button>
+              </h4>
+            </div>
+            <div id="collapseAge" class="collapse" aria-labelledby="headingAge" data-parent="#converterAccordion">
+              <div class="card-body">
+                <div class="converter-box age-calculator">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="dobInput">Date of Birth</label>
+                        <div class="date-input-wrapper">
+                          <input type="text" class="form-control" id="dobInput" placeholder="Select date" readonly>
+                          <i class="fas fa-calendar-alt date-icon"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="refDateInput">As of</label>
+                        <div class="date-input-wrapper">
+                          <input type="text" class="form-control" id="refDateInput" placeholder="Select date" readonly>
+                          <i class="fas fa-calendar-alt date-icon"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Button text updated to "Convert" for uniformity -->
+                  <button class="btn material-btn" onclick="calculateAge()">Convert</button>
+                  <div id="ageResult" class="result mt-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- End of accordion -->
       </div>
     </div>
 
