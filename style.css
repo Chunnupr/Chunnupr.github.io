@@ -125,7 +125,6 @@ body.dark-mode .btn:hover {
 }
 
 /* Accordion Header (Converter Titles) */
-/* In light mode, show dark text for clarity */
 .card-header .converter-toggle {
   color: #212121;
   font-weight: bold;
@@ -227,7 +226,6 @@ body.dark-mode .list-group-item {
   background-color: #1ebe57;
 }
 body.dark-mode .whatsapp-float {
-  /* Adding a subtle text shadow for clarity in dark mode */
   text-shadow: 1px 1px 2px #000;
 }
 
@@ -268,11 +266,9 @@ body.dark-mode a {
   font-size: 20px;
   margin-bottom: 2px;
 }
-/* Adjust mobile nav button text in dark mode */
 body.dark-mode .mobile-nav-btn {
   color: #ccc;
 }
-/* Dark mode override for the mobile bottom nav container */
 body.dark-mode .mobile-bottom-nav {
   background-color: #424242;
   border-top: 1px solid #666;
