@@ -126,7 +126,7 @@ body.dark-mode .btn:hover {
 
 /* Accordion Header (Converter Titles) */
 .card-header .converter-toggle {
-  color: #212121;
+  color: #ffffff;
   font-weight: bold;
   text-decoration: none;
 }
@@ -213,7 +213,7 @@ body.dark-mode .list-group-item {
   bottom: 80px;
   right: 20px;
   background-color: #25D366;
-  color: #fff;
+  color: #ffffff;
   padding: 12px 20px;
   border-radius: 30px;
   text-decoration: none;
@@ -226,7 +226,7 @@ body.dark-mode .list-group-item {
   background-color: #1ebe57;
 }
 body.dark-mode .whatsapp-float {
-  text-shadow: 1px 1px 2px #000;
+  text-shadow: 5px 5px 10px #000;
 }
 
 /* Modal iframe */
