@@ -1,0 +1,24 @@
+{
+  "appName": "Police Files",
+  "packageId": "com.chunnupr.policefiles",
+  "host": "yourdomain.com",
+  "launchUrl": "/",
+  "display": "fullscreen",
+  "themeColor": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "backgroundColor": "#ffffff",
+  "enableNotifications": true,
+  "enableSiteSettings": false,
+  "isChromeOSOnly": false,
+  "webApk": {
+    "enabled": false,
+    "updateInterval": 86400
+  },
+  "fallbackType": "customtabs",
+  "features": {
+    "playBilling": {
+      "enabled": false
+    }
+  }
+}
