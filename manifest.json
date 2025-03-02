@@ -1,7 +1,7 @@
 {
   "name": "Police Files",
   "short_name": "PoliceFiles",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#fafafa",
   "theme_color": "#3f51b5",
