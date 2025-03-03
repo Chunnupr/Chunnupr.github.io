@@ -15,7 +15,7 @@
     "enabled": false,
     "updateInterval": 86400
   },
-  "fallbackType": "none",
+  "fallbackType": "customtabs",
   "features": {
     "playBilling": {
       "enabled": false
