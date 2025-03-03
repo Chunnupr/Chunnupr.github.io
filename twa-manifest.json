@@ -1,7 +1,7 @@
 {
   "appName": "Police Files",
   "packageId": "com.chunnupr.policefiles",
-  "host": "yourdomain.com",
+  "host": "chunnupr.github.io",
   "launchUrl": "/",
   "display": "fullscreen",
   "themeColor": "#000000",
