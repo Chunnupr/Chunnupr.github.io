@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>News Fetched From Social Platforms</title>
+  <style>
+    /* Page background */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6ecf0;
+      padding: 20px;
+    }
+    /* Scrollable container similar to Twitter's feed */
+    .scroll-container {
+      max-width: 600px;
+      max-height: 600px;
+      overflow-y: auto;
+      margin: 0 auto;
+      padding: 10px;
+      background: #f5f8fa;
+      border: 1px solid #e1e8ed;
+      border-radius: 8px;
+    }
+    /* Individual post styling */
+    .post {
+      background-color: #fff;
+      border: 1px solid #e1e8ed;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .user-info {
+      font-size: 14px;
+    }
+    .user-info .name {
+      font-weight: bold;
+      color: #14171a;
+    }
+    .user-info .username {
+      color: #657786;
+      margin-left: 5px;
+    }
+    .timestamp {
+      margin-left: auto;
+      font-size: 12px;
+      color: #657786;
+    }
+    .post-content {
+      font-size: 15px;
+      color: #14171a;
+      margin-bottom: 10px;
+    }
+    /* Media attachments styling */
+    .media-attachments {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .media-attachments img,
+    .media-attachments video,
+    .media-attachments audio {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">Recent News For You</h1>  
+  <div id="posts-container" class="scroll-container">Loading posts...</div>
+
+  <script>
+    // Mastodon handle for Qasim Rashid
+    const handle = 'chunnupr@mastodon.social';
+
+    async function fetchPosts(mastodonHandle) {
+      const [username, instance] = mastodonHandle.split('@');
+
+      // 1) Lookup the account to get the account ID
+      let accountData;
+      try {
+        const lookupURL = `https://${instance}/api/v1/accounts/lookup?acct=${username}`;
+        const res = await fetch(lookupURL);
+        if (!res.ok) {
+          throw new Error(`Lookup HTTP error! Status: ${res.status}`);
+        }
+        accountData = await res.json();
+      } catch (error) {
+        console.error('Error during account lookup:', error);
+        document.getElementById('posts-container').textContent =
+          "Error looking up account. (Check console for details)";
+        return;
+      }
+
+      const accountId = accountData.id;
+      if (!accountId) {
+        document.getElementById('posts-container').textContent =
+          "Account not found (no ID returned).";
+        return;
+      }
+
+      // 2) Fetch the latest posts (adjust the limit as needed)
+      try {
+        const limit = 10;
+        const statusesURL = `https://${instance}/api/v1/accounts/${accountId}/statuses?limit=${limit}`;
+        const response = await fetch(statusesURL);
+        if (!response.ok) {
+          throw new Error(`Statuses HTTP error! Status: ${response.status}`);
+        }
+        const posts = await response.json();
+        const container = document.getElementById('posts-container');
+        container.innerHTML = ''; // Clear "Loading posts..."
+
+        if (posts && posts.length > 0) {
+          posts.forEach(post => {
+            // Create a post container
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+
+            // Format the creation date
+            const date = new Date(post.created_at);
+            const dateString = date.toLocaleString();
+
+            // Header: avatar, display name, username, and timestamp
+            let headerHTML = `
+              <div class="post-header">
+                <img class="avatar" src="${post.account.avatar}" alt="Avatar">
+                <div class="user-info">
+                  <span class="name">${post.account.display_name || post.account.username}</span>
+                  <span class="username">@${post.account.username}</span>
+                </div>
+                <div class="timestamp">${dateString}</div>
+              </div>
+            `;
+
+            // Content: the post content (HTML)
+            let contentHTML = `<div class="post-content">${post.content}</div>`;
+
+            // Media attachments: display images, videos, or audio if present
+            let mediaHTML = '';
+            if (post.media_attachments && post.media_attachments.length > 0) {
+              mediaHTML = `<div class="media-attachments">`;
+              post.media_attachments.forEach(attachment => {
+                if (attachment.type === "image") {
+                  mediaHTML += `<img src="${attachment.preview_url}" alt="${attachment.description || 'Image'}">`;
+                } else if (attachment.type === "video" || attachment.type === "gifv") {
+                  mediaHTML += `
+                    <video controls>
+                      <source src="${attachment.url}" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                  `;
+                } else if (attachment.type === "audio") {
+                  mediaHTML += `
+                    <audio controls>
+                      <source src="${attachment.url}" type="audio/mpeg">
+                      Your browser does not support the audio element.
+                    </audio>
+                  `;
+                }
+              });
+              mediaHTML += `</div>`;
+            }
+
+            // Combine header, content, and media attachments
+            postDiv.innerHTML = headerHTML + contentHTML + mediaHTML;
+            container.appendChild(postDiv);
+          });
+        } else {
+          container.textContent = "No posts available.";
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        document.getElementById('posts-container').textContent =
+          "Error fetching posts. (Check console for details)";
+      }
+    }
+
+    // Fetch posts when the page loads
+    fetchPosts(handle);
+  </script>
+</body>
+</html>
