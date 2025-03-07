@@ -1,3 +1,19 @@
+document.getElementById('news-btn').addEventListener('click', function() {
+  var panel = document.getElementById('news-panel');
+  panel.classList.toggle('show');
+  
+  // Load content from news.html if the panel is shown and not already loaded
+  if(panel.classList.contains('show') && !panel.getAttribute('data-loaded')) {
+    fetch('news.html')
+      .then(response => response.text())
+      .then(html => {
+        panel.innerHTML = html;
+        panel.setAttribute('data-loaded', 'true');  // Prevent reloading on subsequent clicks
+      })
+      .catch(err => console.error('Error loading news content: ', err));
+  }
+});
+
 // Helper function: Given a Google Drive download URL, derive its preview URL.
 function getPreviewUrl(downloadUrl) {
   try {
