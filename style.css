@@ -1,3 +1,35 @@
+/* News button styling */
+#news-btn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 1001;
+  background: #ff6f61; /* Customize as needed */
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+/* Sliding panel styling */
+#news-panel {
+  position: fixed;
+  top: 0;
+  right: -66.66%;  /* Initially hidden off-screen */
+  width: 66.66%;   /* Covers 2/3 of the page */
+  height: 100%;
+  background-color: #fff;  /* White background */
+  overflow-y: auto;
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+
+/* Class to show the panel */
+#news-panel.show {
+  right: 0;
+}
+
 /* Hide default clear button on search inputs */
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
