@@ -2,61 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Latest Tweets from @problemofpolice</title>
+  <title>Latest News from @problemofpolice</title>
   <style>
-    /* Basic styling to match your site */
+    /* Optional: basic styling for the container */
     body {
       font-family: Arial, sans-serif;
-      background-color: #f5f8fa;
-      margin: 0;
       padding: 20px;
-      text-align: center;
     }
-    #twitterContainer {
-      max-width: 600px;
-      margin: 0 auto;
+    #tweet-container {
+      max-width: 550px;
+      margin: auto;
     }
   </style>
 </head>
 <body>
-  <h1>Latest Tweets from @problemofpolice</h1>
-  <div id="twitterContainer">
-    <a class="twitter-timeline" 
+  <div id="tweet-container">
+    <a class="twitter-timeline"
+       data-tweet-limit="1"
        data-chrome="noheader nofooter noborders"
-       data-tweet-limit="10"
        href="https://twitter.com/problemofpolice?ref_src=twsrc%5Etfw">
-      Tweets by @problemofpolice
+      Getting News For You...
     </a>
   </div>
-  
-  <!-- Twitter widget script -->
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  
-  <script>
-    // Auto-refresh every 1 minute (60000 ms)
-    setInterval(function(){
-      // Only refresh if the browser is online
-      if (navigator.onLine) {
-        const container = document.getElementById('twitterContainer');
-        // Clear the container so that a new widget is loaded.
-        container.innerHTML = '';
-        
-        // Create a new anchor element for the timeline
-        const timeline = document.createElement('a');
-        timeline.setAttribute('class', 'twitter-timeline');
-        timeline.setAttribute('data-chrome', 'noheader nofooter noborders');
-        timeline.setAttribute('data-tweet-limit', '10');
-        timeline.href = 'https://twitter.com/problemofpolice?ref_src=twsrc%5Etfw';
-        timeline.textContent = 'Tweets by @problemofpolice';
-        container.appendChild(timeline);
-        
-        // Re-run Twitter's widget script to load the timeline
-        if (window.twttr && window.twttr.widgets) {
-          window.twttr.widgets.load();
-        }
-      }
-      // Else, if offline, do nothing so the previous tweets remain visible.
-    }, 60000);
-  </script>
 </body>
 </html>
