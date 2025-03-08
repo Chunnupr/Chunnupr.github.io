@@ -1,3 +1,5 @@
+$('#updatesSection').show().load('news.html #newsContent');
+
 // Helper function: Given a Google Drive download URL, derive its preview URL.
 function getPreviewUrl(downloadUrl) {
   try {
