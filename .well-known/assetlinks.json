@@ -1,5 +1,5 @@
 [{
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target" : { "namespace": "android_app", "package_name": "com.chunnupr.policefiles",
-               "sha256_cert_fingerprints": ["78:87:36:A5:AB:4C:A1:5C:5F:8F:B9:96:68:00:83:07:72:3D:A2:98:47:73:38:C4:E0:C7:A0:D5:97:ED:0F:0E"] }
+               "sha256_cert_fingerprints": ["98:78:4C:7E:2E:F7:48:B5:07:BD:91:E5:21:18:15:B4:3A:A1:9A:83:89:F5:4D:D8:18:EF:81:2B:1C:A7:04:6B"] }
 }]
