@@ -182,7 +182,7 @@ body.dark-mode .result {
 
 /* Age Calculator Specific Styling for Light Theme */
 .converter-box.age-calculator label {
-  color: #212121;
+  color: #ffffff;
   font-weight: 600;
 }
 .converter-box.age-calculator input,
