@@ -25,6 +25,10 @@
   <!-- Premium Header with Title, Search Bar, and Dark Mode Toggle -->
   <header class="site-header">
     <div class="container">
+      <!-- Hamburger menu button (three-line icon) -->
+      <button id="menu-toggle" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+      </button>
       <div class="header-content">
         <h1 class="site-title">Police Files</h1>
         <!-- Modern Material Search Bar -->
@@ -38,13 +42,22 @@
             <button class="btn modern-search-btn" type="submit">Search</button>
           </form>
         </div>
-        <button id="darkModeToggle" class="dark-mode-btn" aria-label="Toggle dark mode">
-          <i class="fas fa-moon"></i>
-        </button>
       </div>
     </div>
   </header>
-  
+  <!-- Offcanvas menu that slides in from right -->
+  <nav id="offcanvas-menu">
+    <!-- Dark Mode Toggle moved here -->
+    <div class="menu-header" style="padding: 10px; text-align: center;">
+      <button id="darkModeToggle" class="dark-mode-btn" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+    <!-- Menu links -->
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+  </nav>  
   <!-- Content Sections -->
   <div class="container mt-4 content-area">
     <!-- Home Section: Converters as an accordion -->
@@ -148,7 +161,7 @@
     </div>
     <div class="running-sentence">
         <marquee behavior="scroll" direction="left" scrollamount="4">
-          यह प्लेटफार्म आपके लिए और आपके सहयोग से है । कोई प्रारुप अपडेट कराने के लिए सम्पर्क करें ताकि अन्य साथियों को सुविधा हो । 
+          यह वेबसाईट आपके लिए और आपके सहयोग से है । कोई प्रारुप अपडेट कराने के लिए सम्पर्क करें ताकि अन्य साथियों को सुविधा हो । 
         </marquee>
       </div>
     <!-- Updates Section (formerly Offers) -->
