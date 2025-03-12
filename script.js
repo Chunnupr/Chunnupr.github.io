@@ -416,31 +416,3 @@ function printFile(url) {
     printWindow.print();
   };
 }
-
-async function updateGoldPrices() {
-  const apiKey = 'YOUR_API_KEY';
-  try {
-    const response = await fetch(`https://metals-api.com/api/latest?access_key=${apiKey}&base=USD&symbols=XAU`);
-    const data = await response.json();
-    if (data.success) {
-      const goldPriceUSD = data.rates.XAU;
-      const usdToInr = 82;
-      const goldPriceInr = (goldPriceUSD * usdToInr / 31.1035).toFixed(2);
-      const lucknowPrice = goldPriceInr;
-      const delhiPrice = (parseFloat(goldPriceInr) + 50).toFixed(2);
-      const patnaPrice = (parseFloat(goldPriceInr) - 50).toFixed(2);
-      $('#goldLucknow').text('₹' + lucknowPrice);
-      $('#goldDelhi').text('₹' + delhiPrice);
-      $('#goldPatna').text('₹' + patnaPrice);
-    } else {
-      console.error('API Error:', data);
-      $('#goldLucknow, #goldDelhi, #goldPatna').text('Error fetching price');
-    }
-  } catch (error) {
-    console.error('Error fetching gold prices:', error);
-    $('#goldLucknow, #goldDelhi, #goldPatna').text('Error fetching price');
-  }
-}
-
-updateGoldPrices();
-setInterval(updateGoldPrices, 60000);
