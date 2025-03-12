@@ -2,11 +2,6 @@
     .running-sentence {
       font-size: 1.1em;
       color: #fc0317;
-      background-color: #f8f9fa;
-      padding: 10px;
-      border-radius: 4px;
-      margin-top: 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 .modern-progress {
       position: relative;
