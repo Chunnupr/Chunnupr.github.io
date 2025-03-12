@@ -1,3 +1,8 @@
+document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+  });
+});
 <!-- JavaScript to toggle the offcanvas menu -->
     document.getElementById('menu-toggle').addEventListener('click', function() {
       document.getElementById('offcanvas-menu').classList.toggle('active');
