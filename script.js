@@ -7,11 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('menu-toggle').addEventListener('click', function() {
       document.getElementById('offcanvas-menu').classList.toggle('active');
     });
-// In your script.js or within a script tag on your main page:
-function showUpdates() {
-  $('#updatesSection').show().load('news.html');
-}
-
 // Helper function: Given a Google Drive download URL, derive its preview URL.
 function getPreviewUrl(downloadUrl) {
   try {
