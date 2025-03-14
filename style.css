@@ -9,7 +9,6 @@
   right: 10px;
   z-index: 1100; /* Ensure it appears above other elements */
 }
-
 /* Offcanvas menu styling */
 #offcanvas-menu {
   position: fixed;
@@ -18,7 +17,7 @@
   width: 250px;
   height: 100%;
   background-color: #5c6bc0;
-  color: #f2f2f2;
+  color: #ffffff;
   transition: transform 0.3s ease;
   z-index: 1000;
   transform: translateX(100%); /* Hide offscreen to the right */
@@ -34,7 +33,7 @@
 #offcanvas-menu a {
   display: block;
   padding: 12px 20px;
-  color: #f2f2f2;
+  color: #ffffff;
   text-decoration: none;
   font-size: 18px;
 }
@@ -252,12 +251,12 @@ body.dark-mode .result {
 
 /* Age Calculator Specific Styling for Light Theme */
 .converter-box.age-calculator label {
-  color: #ffffff;
+  color: #000000;
   font-weight: 600;
 }
 .converter-box.age-calculator input,
 .converter-box.age-calculator button {
-  color: #ffffff;
+  color: #000000;
 }
 
 /* Folder Cards */
