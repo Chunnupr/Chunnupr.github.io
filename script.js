@@ -222,13 +222,13 @@ $(document).ready(function() {
   });
 });
 
-/* --- Navigation --- */
 function showSection(section) {
   $('#homeSection, #updatesSection, #categorySection').hide();
   if (section === 'home') {
     $('#homeSection').show();
   } else if (section === 'updates') {
-    $('#updatesSection').show();
+    // Show the section and reset opacity and pointer events
+    $('#updatesSection').show().css({ 'opacity': '1', 'pointer-events': 'auto' });
   } else if (section === 'category') {
     $('#categorySection').show();
     $('#folderListView').show();
