@@ -165,26 +165,26 @@
         </marquee>
       </div>
     <!-- Updates Section (formerly Offers) -->
-    <div id="updatesSection" style="display:none;">
-      <!-- Modern Custom Progress Bar shown while Twitter timeline loads -->
-      <div id="twitterProgress" class="modern-progress">
-        <div class="modern-progress-bar"></div>
-      </div>
-      <!-- Embedded Twitter timeline for @problemofpolice -->
-      <a class="twitter-timeline" data-height="600" data-theme="light" href="https://twitter.com/problemofpolice">
-        Please Wait, News is Loading...
-      </a>
-      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-      <!-- Custom script to hide progress bar when timeline is rendered -->
-      <script>
-        window.twttr = window.twttr || {};
-        twttr.ready(function (twttr) {
-          twttr.events.bind('rendered', function (event) {
-            document.getElementById('twitterProgress').style.display = 'none';
-          });
-        });
-      </script>
-    </div>
+<div id="updatesSection" style="opacity:0; pointer-events:none; height:600px; transition: opacity 0.5s ease-in-out;">
+  <!-- Modern Custom Progress Bar shown while Twitter timeline loads -->
+  <div id="twitterProgress" class="modern-progress">
+    <div class="modern-progress-bar"></div>
+  </div>
+  <!-- Embedded Twitter timeline for @problemofpolice -->
+  <a class="twitter-timeline" data-height="600" data-theme="light" href="https://twitter.com/problemofpolice">
+    Please Wait, News is Loading...
+  </a>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <!-- Custom script to hide progress bar when timeline is rendered -->
+  <script>
+    window.twttr = window.twttr || {};
+    twttr.ready(function (twttr) {
+      twttr.events.bind('rendered', function (event) {
+        document.getElementById('twitterProgress').style.display = 'none';
+      });
+    });
+  </script>
+</div>
     <!-- Category Section (Folders & Search Results) -->
     <div id="categorySection" style="display:none;">
       <div class="folders-container">
