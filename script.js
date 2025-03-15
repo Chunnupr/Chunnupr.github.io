@@ -18,6 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// When opening the document preview
+document.getElementById('menu-toggle').style.display = 'none';
+
+// When closing the document preview
+document.getElementById('menu-toggle').style.display = 'block';
+
 // JavaScript to toggle the offcanvas menu
 document.getElementById('menu-toggle').addEventListener('click', function() {
   document.getElementById('offcanvas-menu').classList.toggle('active');
