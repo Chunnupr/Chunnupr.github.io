@@ -4,7 +4,6 @@ const urlsToCache = [
   '/style.css',
   '/script.js',
   '/manifest.json',
-  '/news.html',
   // Add additional assets if needed, e.g., '/icons/icon.png'
 ];
 
@@ -35,8 +34,8 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.url.endsWith('/news.html')) {
-    // Stale-while-revalidate strategy for news.html
+  if (event.request.url.endsWith('/index.html')) {
+    // Stale-while-revalidate strategy for index.html
     event.respondWith(
       caches.open(CACHE_NAME).then(cache => {
         return cache.match(event.request).then(cachedResponse => {
