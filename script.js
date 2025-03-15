@@ -1,32 +1,37 @@
-// Register the service worker if supported
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
-      .then(function(registration) {
-        console.log('Service Worker registered with scope:', registration.scope);
-      })
-      .catch(function(error) {
-        console.log('Service Worker registration failed:', error);
-      });
-  });
-}
-
-// Prevent right-click context menu on the document
 document.addEventListener('DOMContentLoaded', function() {
+  // Prevent right-click context menu
   document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
   });
+  
+  // Check if an active section is saved in localStorage and show it
+  var activeSection = localStorage.getItem("activeSection");
+  if (activeSection) {
+    showSection(activeSection);
+  } else {
+    // Default to 'home' if nothing is stored
+    showSection('home');
+  }
 });
 
-// When opening the document preview
-document.getElementById('menu-toggle').style.display = 'none';
+// Close the offcanvas menu if the user clicks outside of it
+document.addEventListener('click', function(event) {
+  const offcanvasMenu = document.getElementById('offcanvas-menu');
+  const menuToggle = document.getElementById('menu-toggle');
+  
+  // If the menu is open and the click target is not inside the offcanvas menu or the menu button
+  if (offcanvasMenu.classList.contains('active') &&
+      !offcanvasMenu.contains(event.target) &&
+      !menuToggle.contains(event.target)) {
+    offcanvasMenu.classList.remove('active');
+  }
+});
 
-// When closing the document preview
-document.getElementById('menu-toggle').style.display = 'block';
-
-// JavaScript to toggle the offcanvas menu
-document.getElementById('menu-toggle').addEventListener('click', function() {
+// Toggle offcanvas menu visibility when the hamburger menu is clicked
+document.getElementById('menu-toggle').addEventListener('click', function(event) {
   document.getElementById('offcanvas-menu').classList.toggle('active');
+  // Prevent the click from propagating to the document listener
+  event.stopPropagation();
 });
 
 // Helper function: Given a Google Drive download URL, derive its preview URL.
@@ -258,6 +263,9 @@ function showSection(section) {
   }
   $("#searchResultsList").empty();
   $("#searchResults").hide();
+
+  // Save the active section in localStorage
+  localStorage.setItem("activeSection", section);
 }
 
 /* --- Search Functionality --- */
