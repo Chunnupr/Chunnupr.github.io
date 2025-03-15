@@ -1,3 +1,4 @@
+// Register the service worker if supported
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('/sw.js')
@@ -8,15 +9,20 @@ if ('serviceWorker' in navigator) {
         console.log('Service Worker registration failed:', error);
       });
   });
+}
+
+// Prevent right-click context menu on the document
 document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
   });
 });
-<!-- JavaScript to toggle the offcanvas menu -->
-    document.getElementById('menu-toggle').addEventListener('click', function() {
-      document.getElementById('offcanvas-menu').classList.toggle('active');
-    });
+
+// JavaScript to toggle the offcanvas menu
+document.getElementById('menu-toggle').addEventListener('click', function() {
+  document.getElementById('offcanvas-menu').classList.toggle('active');
+});
+
 // Helper function: Given a Google Drive download URL, derive its preview URL.
 function getPreviewUrl(downloadUrl) {
   try {
