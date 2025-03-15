@@ -1,3 +1,53 @@
+/* Dark Mode Toggle Switch Styling */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 28px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+.menu-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
 /* Hamburger menu button styling */
 #menu-toggle {
   background: none;
@@ -9,7 +59,7 @@
   right: 10px;
   z-index: 1100; /* Ensure it appears above other elements */
 }
-/* Offcanvas menu styling */
+/* Offcanvas Menu Styling */
 #offcanvas-menu {
   position: fixed;
   top: 0;
@@ -20,16 +70,23 @@
   color: #ffffff;
   transition: transform 0.3s ease;
   z-index: 1000;
-  transform: translateX(100%); /* Hide offscreen to the right */
-  padding-top: 60px;
+  transform: translateX(100%); /* Hidden offscreen */
+  padding-top: 10px;
 }
 
-/* When active, slide the menu in */
 #offcanvas-menu.active {
   transform: translateX(0);
 }
 
-/* Offcanvas menu links */
+/* Offcanvas Menu Header: dark mode toggle appears here */
+#offcanvas-menu .menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Center the toggle */
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+/* --- Offcanvas Menu Links --- */
 #offcanvas-menu a {
   display: block;
   padding: 12px 20px;
