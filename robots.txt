@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://policefiles.online/sitemap.xml
