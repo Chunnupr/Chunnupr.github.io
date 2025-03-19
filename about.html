@@ -14,11 +14,12 @@
     }
     .container {
       width: 80%;
-      margin: 50px auto;
-      padding: 20px;
+      max-width: 800px;
+      margin: 40px auto;
       background: #fff;
+      padding: 20px 30px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
+      border-radius: 8px;
     }
     h1, h2 {
       color: #004085;
@@ -26,9 +27,11 @@
     p {
       font-size: 16px;
       line-height: 1.6;
+      margin-bottom: 1em;
     }
     ul {
       margin-left: 1.5em;
+      margin-bottom: 1em;
     }
     .contact a {
       color: #007bff;
@@ -42,7 +45,7 @@
       display: inline-block;
       margin: 20px 0;
       padding: 10px 20px;
-      background-color: #007bff; /* Blue background */
+      background-color: #007bff;
       color: #ffffff;
       text-decoration: none;
       border-radius: 4px;
@@ -52,17 +55,35 @@
     .back-button:hover {
       background-color: #0056b3;
     }
+    .back-container {
+      text-align: center;
+    }
+    /* Disclaimer Box */
+    .disclaimer-box {
+      border: 2px solid #ff0000;
+      background-color: #ffe6e6;
+      padding: 1em;
+      margin: 1.5em 0;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- Back to Home Button at the Top -->
-    <a href="index.html" class="back-button">Back to Home</a>
+    <div class="back-container">
+      <a href="index.html" class="back-button">Back to Home</a>
+    </div>
     
     <h1>About Police Files</h1>
-    <p>
-      Welcome to <strong>Police Files</strong>—your go-to platform for legal document templates, case management tools, and essential legal utilities. Our mission is to simplify legal documentation for professionals, law enforcement officers, and individuals.
-    </p>
+    <p>Welcome to <strong>Police Files</strong>—your go-to platform for legal document templates, case management tools, and essential legal utilities. Our mission is to simplify legal documentation for professionals, law enforcement officers, and individuals.</p>
+
+    <div class="disclaimer-box">
+      <p>
+        <strong>Important Disclaimer:</strong><br>
+        Police Files is an <strong>independent resource</strong> and is <strong>NOT affiliated with, endorsed by, sponsored by, or approved by any government, police department, or official law enforcement agency.</strong>
+      </p>
+    </div>
 
     <h2>What We Offer</h2>
     <p>At <strong>Police Files</strong>, we provide:</p>
@@ -74,22 +95,24 @@
     </ul>
 
     <h2>Our Vision</h2>
-    <p>
-      We aim to make legal processes more accessible and hassle-free by providing digital solutions that save time and effort.
-    </p>
+    <p>We aim to make legal processes more accessible and hassle-free by providing digital solutions that save time and effort.</p>
     
-    <h2>Disclaimer</h2>
+    <h2>Data & Privacy</h2>
     <p>
-      <strong>Police Files</strong> is an independent platform and is <strong>not</strong> affiliated with, endorsed by, or connected to any official police department, law enforcement agency, or government entity. The tools and templates provided on this site are for informational purposes only and do not constitute legal advice.
+      To learn more about how we handle user data, please read our 
+      <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>. 
+      It outlines what information we collect, how we use it, and the measures we take to safeguard your data.
     </p>
-    
+
     <h2>Contact Us</h2>
     <p class="contact">Have questions or suggestions? Reach out to us!</p>
     <p class="contact"><strong>Email:</strong> <a href="mailto:shishu.tricksbricks@gmail.com">shishu.tricksbricks@gmail.com</a></p>
     <p class="contact"><strong>Telegram:</strong> <a href="https://t.me/PoliceCK" target="_blank">@PoliceCK</a></p>
     
     <!-- Back to Home Button at the Bottom -->
-    <a href="index.html" class="back-button">Back to Home</a>
+    <div class="back-container">
+      <a href="index.html" class="back-button">Back to Home</a>
+    </div>
   </div>
 </body>
 </html>
