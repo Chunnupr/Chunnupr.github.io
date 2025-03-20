@@ -29,8 +29,11 @@ document.addEventListener('click', function(event) {
 
 // Toggle offcanvas menu visibility when the hamburger menu is clicked
 document.getElementById('menu-toggle').addEventListener('click', function(event) {
+  // Toggle "active" class on the hamburger button itself
+  this.classList.toggle('active');
+  // Toggle "active" class on the offcanvas menu as well
   document.getElementById('offcanvas-menu').classList.toggle('active');
-  // Prevent the click from propagating to the document listener
+  // Prevent event propagation to avoid conflicts with the document click listener
   event.stopPropagation();
 });
 
@@ -174,13 +177,20 @@ function generateFilesHTMLForFolder(folderId) {
     html += `
       <li class="list-group-item" data-file-name="${file.name}" data-file-tags="template, form, sample">
         <div class="d-flex justify-content-start">
-          <button class="btn btn-sm btn-info mr-2" onclick="previewFile('${previewUrl}')">Preview</button>
+          <button class="btn btn-sm modern-preview-btn mr-2" onclick="previewFile('${previewUrl}')">
+  <i class="fas fa-eye"></i> Preview
+</button>
         </div>
         <div class="d-flex justify-content-between align-items-center mt-2">
           <span>${file.name}</span>
           <span>
-            <a href="${file.downloadUrl}" class="btn btn-sm btn-success" target="_blank">Download</a>
-            <button class="btn btn-sm btn-secondary" onclick="printFile('${previewUrl}')">Print</button>
+            <a href="${file.downloadUrl}" class="btn btn-sm modern-download-btn" target="_blank">
+  <i class="fas fa-download"></i>
+</a>
+
+            <button class="btn btn-sm modern-print-btn" onclick="printFile('${previewUrl}')">
+  <i class="fas fa-print"></i>
+</button>
           </span>
         </div>
       </li>
@@ -199,18 +209,24 @@ function buildFilesDataFromFolders() {
         name: file.name,
         tags: "template, form, sample",
         element: `
-          <li class="list-group-item" data-file-name="${file.name}" data-file-tags="template, form, sample">
-            <div class="d-flex justify-content-start">
-              <button class="btn btn-sm btn-info mr-2" onclick="previewFile('${previewUrl}')">Preview</button>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mt-2">
-              <span>${file.name}</span>
-              <span>
-                <a href="${file.downloadUrl}" class="btn btn-sm btn-success" target="_blank">Download</a>
-                <button class="btn btn-sm btn-secondary" onclick="printFile('${previewUrl}')">Print</button>
-              </span>
-            </div>
-          </li>
+  <li class="list-group-item" data-file-name="${file.name}" data-file-tags="template, form, sample">
+    <div class="d-flex justify-content-start">
+      <button class="btn btn-sm modern-preview-btn mr-2" onclick="previewFile('${previewUrl}')">
+  <i class="fas fa-eye"></i> Preview
+</button>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <span>${file.name}</span>
+      <span>
+        <a href="${file.downloadUrl}" class="btn btn-sm modern-download-btn" target="_blank">
+          <i class="fas fa-download"></i>
+        </a>
+        <button class="btn btn-sm modern-print-btn" onclick="printFile('${previewUrl}')">
+  <i class="fas fa-print"></i>
+</button>
+      </span>
+    </div>
+  </li>
         `
       });
     });
@@ -239,13 +255,19 @@ $(document).ready(function() {
     altInput: true,
     altFormat: "F j, Y",
     dateFormat: "Y-m-d",
-    allowInput: false
+    allowInput: false,
+    onReady: function(selectedDates, dateStr, instance) {
+      instance.altInput.placeholder = "DDMMYY";
+    }
   });
   flatpickr("#refDateInput", { 
     altInput: true,
     altFormat: "F j, Y",
     dateFormat: "Y-m-d",
-    allowInput: false
+    allowInput: false,
+    onReady: function(selectedDates, dateStr, instance) {
+      instance.altInput.placeholder = "DDMMYY";
+    }
   });
 });
 
@@ -300,10 +322,12 @@ function resetSearch() {
 function calculateAge() {
   const dobValue = document.getElementById("dobInput").value;
   let refValue = document.getElementById("refDateInput").value;
+  
   if (!dobValue) {
     alert("Please select your date of birth.");
     return;
   }
+  
   const dob = new Date(dobValue);
   const refDate = refValue ? new Date(refValue) : new Date();
   
@@ -320,14 +344,16 @@ function calculateAge() {
     years--;
     months += 12;
   }
+  
   const totalDays = Math.floor((refDate - dob) / (1000 * 60 * 60 * 24));
   
   const ageResultEl = document.getElementById("ageResult");
-  ageResultEl.innerHTML = `
-    Age: ${years} years, ${months} months, ${days} days | Total Days: ${totalDays}
-  `;
-  ageResultEl.classList.add("shake");
-  setTimeout(() => ageResultEl.classList.remove("shake"), 500);
+  ageResultEl.innerHTML = `Age: ${years} years, ${months} months, ${days} days | Total Days: ${totalDays}`;
+  
+  // Remove previous animation classes to re-trigger
+  ageResultEl.classList.remove("cartoon-animation", "result-style");
+  void ageResultEl.offsetWidth;
+  ageResultEl.classList.add("result-style", "cartoon-animation");
 }
 
 /* --- Converter Functions --- */
@@ -355,22 +381,32 @@ async function fetchIPCtoBNSData() {
 async function convertIPCtoBNS() {
   const inputIPC = document.getElementById("ipcInput").value.trim();
   const resultField = document.getElementById("ipcResult");
+  
+  // Remove previous animation classes to re-trigger
+  resultField.classList.remove("cartoon-animation", "result-style");
+  
   if (!inputIPC) {
     resultField.innerText = "Please enter an IPC section.";
-    resultField.classList.add("shake");
-    setTimeout(() => resultField.classList.remove("shake"), 500);
+    // Force reflow to restart animation
+    void resultField.offsetWidth;
+    resultField.classList.add("result-style", "cartoon-animation");
     return;
   }
+  
   const ipcData = await fetchIPCtoBNSData();
   const bnsEquivalent = ipcData[inputIPC];
+  
   if (bnsEquivalent) {
     resultField.innerText = bnsEquivalent;
   } else {
     resultField.innerText = "No matching BNS section found.";
   }
-  resultField.classList.add("shake");
-  setTimeout(() => resultField.classList.remove("shake"), 500);
+  
+  // Force reflow and then add animation classes
+  void resultField.offsetWidth;
+  resultField.classList.add("result-style", "cartoon-animation");
 }
+
 
 async function fetchCrPCtoBNSSData() {
   const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuDAxvhH2oEOrQgMk93bECt-FOPzJME4m6dARFxicpI2RMfM7xd7jdHAM86V2C-RRRqZVPrbc_e9pr/pub?gid=216325542&single=true&output=csv";
@@ -396,21 +432,28 @@ async function fetchCrPCtoBNSSData() {
 async function convertCrPcToBNSS() {
   const inputCrpc = document.getElementById('crpcInput').value.trim();
   const resultField = document.getElementById('crpcResult');
+  
+  // Remove previous animation classes to re-trigger
+  resultField.classList.remove("cartoon-animation", "result-style");
+  
   if (!inputCrpc) {
     resultField.innerText = "Please enter a CrPC value.";
-    resultField.classList.add("shake");
-    setTimeout(() => resultField.classList.remove("shake"), 500);
+    void resultField.offsetWidth;
+    resultField.classList.add("result-style", "cartoon-animation");
     return;
   }
+  
   const crpcData = await fetchCrPCtoBNSSData();
   const bnssEquivalent = crpcData[inputCrpc];
+  
   if (bnssEquivalent) {
     resultField.innerText = bnssEquivalent;
   } else {
     resultField.innerText = "No matching BNSS section found.";
   }
-  resultField.classList.add("shake");
-  setTimeout(() => resultField.classList.remove("shake"), 500);
+  
+  void resultField.offsetWidth;
+  resultField.classList.add("result-style", "cartoon-animation");
 }
 
 /* --- Folder View & Other Functions --- */
