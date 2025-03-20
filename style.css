@@ -582,3 +582,14 @@ body.dark-mode .folder-card .card-body {
 .converter-box.age-calculator button {
   color: #fff !important;
 }
+/* For light mode */
+.flatpickr-input[readonly].flatpickr-alt-input::placeholder {
+  color: #212121; /* Adjust as needed for contrast */
+  opacity: 1;
+}
+
+/* For dark mode */
+body.dark-mode .flatpickr-input[readonly].flatpickr-alt-input::placeholder {
+  color: #ffffff; /* Ensure visibility on dark backgrounds */
+  opacity: 1;
+}
