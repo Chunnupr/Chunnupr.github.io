@@ -1,3 +1,7 @@
+#ipcResult, #crpcResult {
+  display: inline-block;
+}
+
 /* High Court Button Styles with !important to override btn-link */
 .high-court-btn {
   background-color: #007bff !important;
@@ -70,15 +74,22 @@ input:checked + .slider:before {
 }
 /* Hamburger menu button styling */
 #menu-toggle {
-  background: none;
+  background: transparent;
   border: none;
   color: #fdfafa;
   font-size: 28px;
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 1100; /* Ensure it appears above other elements */
+  z-index: 1100;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
+
+/* Optional: Slight hover effect */
+#menu-toggle:hover {
+  color: #ffcc00;
+}
+
 /* Offcanvas Menu Styling */
 #offcanvas-menu {
   position: fixed;
@@ -363,23 +374,24 @@ body.dark-mode .list-group-item {
 .telegram-float {
   position: fixed;
   bottom: 80px;
-  right: 20px;
-  background-color: #0088cc; /* Telegram Blue */
-  color: #ffffff;
-  padding: 12px 20px;
-  border-radius: 30px;
+  right: 5px;
+  background: linear-gradient(135deg, #0088cc, #005f99); /* Modern gradient */
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
   text-decoration: none;
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  font-size: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  transition: background-color 0.3s;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
+
 .telegram-float:hover {
-  background-color: #0077b3; /* Slightly darker blue on hover */
+  background: linear-gradient(135deg, #0077b3, #004e80);
+  transform: scale(1.05);
 }
-body.dark-mode .telegram-float {
-  text-shadow: 5px 5px 10px #000;
-}
+
 
 /* Modal iframe */
 .modal-iframe {
@@ -473,5 +485,94 @@ body.dark-mode .folder-card .card-body {
   100% { transform: translateX(0); }
 }
 .shake {
-  animation: shake 0.5s;
+  animation: shake 1s;
+}
+/* Cartoon Bounce Animation */
+@keyframes cartoonBounce {
+  0% { transform: scale(0.8) rotate(-5deg); opacity: 0; }
+  50% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+  70% { transform: scale(0.95) rotate(-3deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* Apply the cartoonized animation */
+.cartoon-animation {
+  animation: cartoonBounce 1s ease-out;
+}
+
+/* Bold, colorful result style */
+.result-style {
+  color: #FF4500 !important;  /* Vibrant Orange (adjust as needed) */
+  font-weight: bold;
+  font-size: 1em;
+}
+.modern-download-btn {
+  background: linear-gradient(45deg, #28a745, #218838);
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: transform 0.2s ease, background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modern-download-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(45deg, #218838, #1e7e34);
+}
+.modern-print-btn {
+  background: linear-gradient(135deg, #34ace0, #227093); /* Vibrant blue gradient */
+  border: none;
+  color: #fff;
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modern-print-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modern-print-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+.modern-preview-btn {
+  background: linear-gradient(135deg, #ff793f, #ff5e57); /* Vibrant, warm gradient */
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  padding: 4px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modern-preview-btn i {
+  margin-right: 6px; /* spacing between icon and text */
+}
+
+.modern-preview-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modern-preview-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.converter-box.age-calculator button {
+  color: #fff !important;
 }
