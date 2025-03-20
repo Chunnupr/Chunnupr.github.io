@@ -1,3 +1,23 @@
+/* High Court Button Styles with !important to override btn-link */
+.high-court-btn {
+  background-color: #007bff !important;
+  color: #fff !important; /* Force white text */
+  font-weight: bold !important; /* Bold text */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none !important; /* Remove underline */
+  display: inline-block;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.high-court-btn:hover {
+  background-color: #0056b3 !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 /* Dark Mode Toggle Switch Styling */
 .switch {
   position: relative;
