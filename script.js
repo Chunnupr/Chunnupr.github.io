@@ -251,24 +251,29 @@ $(document).ready(function() {
   $('#fileSuggestions').html(optionsHTML);
   
   // Initialize Flatpickr for the Age Calculator inputs
-  flatpickr("#dobInput", { 
-    altInput: true,
-    altFormat: "F j, Y",
-    dateFormat: "Y-m-d",
-    allowInput: false,
-    onReady: function(selectedDates, dateStr, instance) {
-      instance.altInput.placeholder = "DDMMYY";
+  flatpickr("#dobInput", {
+  altInput: true,
+  altFormat: "F j, Y",
+  dateFormat: "Y-m-d",
+  allowInput: false,
+  onReady: function(selectedDates, dateStr, instance) {
+    if (!instance.altInput.value) {
+      instance.altInput.setAttribute("placeholder", "DDMMYY");
     }
-  });
-  flatpickr("#refDateInput", { 
-    altInput: true,
-    altFormat: "F j, Y",
-    dateFormat: "Y-m-d",
-    allowInput: false,
-    onReady: function(selectedDates, dateStr, instance) {
-      instance.altInput.placeholder = "DDMMYY";
+  }
+});
+
+flatpickr("#refDateInput", {
+  altInput: true,
+  altFormat: "F j, Y",
+  dateFormat: "Y-m-d",
+  allowInput: false,
+  onReady: function(selectedDates, dateStr, instance) {
+    if (!instance.altInput.value) {
+      instance.altInput.setAttribute("placeholder", "DDMMYY");
     }
-  });
+  }
+});
 });
 
 function showSection(section) {
