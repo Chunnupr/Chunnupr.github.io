@@ -176,26 +176,32 @@ body {
 }
 
 /* Premium Header */
+/* Make header area more compact */
 .site-header {
   background: linear-gradient(135deg, #3f51b5, #5c6bc0);
   color: #fff;
-  padding: 15px 0;
+  padding: 10px 0;  /* Reduced from 15px to 10px */
 }
+
 .header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
+/* Slightly reduce the site title font size for compactness */
 .site-title {
-  font-size: 2.5rem;
+  font-size: 2.2rem;  /* Reduced from 2.5rem */
   font-weight: 700;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   margin: 0;
 }
+
+/* Reduce margin around the search area */
 .header-search {
   flex: 1;
-  margin: 10px 20px;
+  margin: 5px 15px;  /* Reduced from 10px 20px */
 }
 .header-search form {
   display: flex;
