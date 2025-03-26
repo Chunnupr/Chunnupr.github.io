@@ -328,11 +328,18 @@ document.addEventListener('DOMContentLoaded', function() {
   if (ipcBnsConverter) {
       const ipcBnsCollapsible = ipcBnsConverter.querySelector('.collapsible');
       const ipcBnsConverterContainer = ipcBnsConverter.querySelector('.converter-container');
+      const warningText = ipcBnsConverter.querySelector('.warning-text');
 
       if (ipcBnsCollapsible && ipcBnsConverterContainer) {
           ipcBnsCollapsible.addEventListener('click', function() {
               this.classList.toggle("active");
-              ipcBnsConverterContainer.style.display = ipcBnsConverterContainer.style.display === "block" ? "none" : "block";
+              if (this.classList.contains("active")) {
+                  ipcBnsConverterContainer.style.display = "block";
+                  warningText.style.display = "block";
+              } else {
+                  ipcBnsConverterContainer.style.display = "none";
+                  warningText.style.display = "none";
+              }
           });
 
           // IPC/BNS Converter Logic
