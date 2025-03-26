@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Converter Sources & Disclaimer</title>
+  
+  <!-- Font Awesome for modern icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
+    integrity="sha512-acY6dUJk9+2hx4cczH1bGRQ3tSTb4+qkL6R+P8nmsqTKMEEuWyE9+ehcEjR0u9/FEcoI1bH4yb13SJfZyNKwug==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+  <style>
+    /* Animated Background Gradient */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(-45deg, #283c63, #4a637c, #91a6ff, #283c63);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Container with fadeIn animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .container {
+      max-width: 800px;
+      width: 95%;
+      background: #fff;
+      padding: 30px 40px;
+      margin: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      animation: fadeInUp 1s ease-out;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #2c3e50;
+    }
+
+    /* Back Button Styles with hover scale */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      margin: 15px 0;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    .back-btn i {
+      margin-right: 10px;
+    }
+    .back-btn:hover {
+      background-color: #2980b9;
+      transform: scale(1.05);
+    }
+
+    /* Sources Section with animated underline */
+    .sources {
+      margin: 30px 0;
+    }
+    .sources ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sources li {
+      margin-bottom: 20px;
+    }
+    .sources a {
+      font-size: 1.2rem;
+      color: #3498db;
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .sources a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      display: block;
+      background: #2980b9;
+      transition: width 0.3s;
+      bottom: -3px;
+      left: 0;
+    }
+    .sources a:hover {
+      color: #2980b9;
+    }
+    .sources a:hover::after {
+      width: 100%;
+    }
+
+    /* Disclaimer Section with pulse animation */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+    .disclaimer {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 20px;
+      border-radius: 8px;
+      color: #721c24;
+      margin: 30px 0;
+      text-align: center;
+      font-weight: bold;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 25px;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      .back-btn {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+      }
+      .sources a {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Back Button -->
+    <button class="back-btn" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <h1>Converter Sources & Disclaimer</h1>
+
+    <div class="sources">
+      <ul>
+        <li>
+          <a href="https://bprd.nic.in/uploads/pdf/COMPARISON%20SUMMARY%20BNS%20to%20IPC%20.pdf" target="_blank">
+            Source for IPC to BNS Converter
+          </a>
+        </li>
+        <li>
+          <a href="https://bprd.nic.in/uploads/pdf/Comparison%20summary%20BNSS%20to%20CrPC.pdf" target="_blank">
+            Source for CrPC to BNSS Converter
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">
+      <p>
+        <strong>Disclaimer:</strong> Please confirm the relevant sections from an official source or authority before finalizing any legal sections or making any legal decisions. This website is not responsible for any discrepancies.
+      </p>
+    </div>
+
+    <!-- Bottom Back Button -->
+    <button class="back-btn" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+  </div>
+  
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>
