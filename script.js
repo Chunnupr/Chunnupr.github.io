@@ -37,21 +37,6 @@ document.getElementById('menu-toggle').addEventListener('click', function(event)
   event.stopPropagation();
 });
 
-// Helper function: Given a Google Drive download URL, derive its preview URL.
-function getPreviewUrl(downloadUrl) {
-  try {
-    let urlObj = new URL(downloadUrl);
-    let fileId = urlObj.searchParams.get("id");
-    if (fileId) {
-      return "https://drive.google.com/file/d/" + fileId + "/preview";
-    } else {
-      return downloadUrl;
-    }
-  } catch (e) {
-    return downloadUrl;
-  }
-}
-
 /* --- Global Files Data Object --- */
 const folderFiles = {
   avkaash: [
@@ -168,33 +153,47 @@ anya: [
 ]
 };
 
+// Helper function: Given a Google Drive download URL, derive its preview URL.
+function getPreviewUrl(downloadUrl) {
+  try {
+      let urlObj = new URL(downloadUrl);
+      let fileId = urlObj.searchParams.get("id");
+      if (fileId) {
+          return "https://drive.google.com/file/d/" + fileId + "/preview";
+      } else {
+          return downloadUrl;
+      }
+  } catch (e) {
+      return downloadUrl;
+  }
+}
+
 /* --- New Function: Generate File List HTML for a Folder --- */
 function generateFilesHTMLForFolder(folderId) {
   let files = folderFiles[folderId] || [];
   let html = "";
   files.forEach(file => {
-    const previewUrl = getPreviewUrl(file.downloadUrl);
-    html += `
-      <li class="list-group-item" data-file-name="${file.name}" data-file-tags="template, form, sample">
-        <div class="d-flex justify-content-start">
-          <button class="btn btn-sm modern-preview-btn mr-2" onclick="previewFile('${previewUrl}')">
-  <i class="fas fa-eye"></i> Preview
-</button>
-        </div>
-        <div class="d-flex justify-content-between align-items-center mt-2">
-          <span>${file.name}</span>
-          <span>
-            <a href="${file.downloadUrl}" class="btn btn-sm modern-download-btn" target="_blank">
-  <i class="fas fa-download"></i>
-</a>
-
-            <button class="btn btn-sm modern-print-btn" onclick="printFile('${previewUrl}')">
-  <i class="fas fa-print"></i>
-</button>
-          </span>
-        </div>
-      </li>
-    `;
+      const previewUrl = getPreviewUrl(file.downloadUrl);
+      html += `
+          <li class="list-group-item" data-file-name="${file.name}" data-file-tags="template, form, sample">
+              <div class="d-flex justify-content-start">
+                  <button class="btn btn-sm modern-preview-btn mr-2 preview-btn" data-preview-url="${previewUrl}">
+                      <i class="fas fa-eye"></i> Preview
+                  </button>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                  <span>${file.name}</span>
+                  <span>
+                      <a href="${file.downloadUrl}" class="btn btn-sm modern-download-btn" target="_blank">
+                          <i class="fas fa-download"></i>
+                      </a>
+                      <button class="btn btn-sm modern-print-btn print-btn" data-print-url="${previewUrl}">
+                          <i class="fas fa-print"></i>
+                      </button>
+                  </span>
+              </div>
+          </li>
+      `;
   });
   return html;
 }
@@ -203,35 +202,58 @@ function generateFilesHTMLForFolder(folderId) {
 function buildFilesDataFromFolders() {
   let filesData = [];
   for (let folder in folderFiles) {
-    folderFiles[folder].forEach(file => {
-      let previewUrl = getPreviewUrl(file.downloadUrl);
-      filesData.push({
-        name: file.name,
-        tags: "template, form, sample",
-        element: `
-  <li class="list-group-item" data-file-name="${file.name}" data-file-tags="template, form, sample">
-    <div class="d-flex justify-content-start">
-      <button class="btn btn-sm modern-preview-btn mr-2" onclick="previewFile('${previewUrl}')">
-  <i class="fas fa-eye"></i> Preview
-</button>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <span>${file.name}</span>
-      <span>
-        <a href="${file.downloadUrl}" class="btn btn-sm modern-download-btn" target="_blank">
-          <i class="fas fa-download"></i>
-        </a>
-        <button class="btn btn-sm modern-print-btn" onclick="printFile('${previewUrl}')">
-  <i class="fas fa-print"></i>
-</button>
-      </span>
-    </div>
-  </li>
-        `
+      folderFiles[folder].forEach(file => {
+          let previewUrl = getPreviewUrl(file.downloadUrl);
+          filesData.push({
+              name: file.name,
+              tags: "template, form, sample",
+              element: `
+                  <li class="list-group-item" data-file-name="${file.name}" data-file-tags="template, form, sample">
+                      <div class="d-flex justify-content-start">
+                          <button class="btn btn-sm modern-preview-btn mr-2 preview-btn" data-preview-url="${previewUrl}">
+                              <i class="fas fa-eye"></i> Preview
+                          </button>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center mt-2">
+                          <span>${file.name}</span>
+                          <span>
+                              <a href="${file.downloadUrl}" class="btn btn-sm modern-download-btn" target="_blank">
+                                  <i class="fas fa-download"></i>
+                              </a>
+                              <button class="btn btn-sm modern-print-btn print-btn" data-print-url="${previewUrl}">
+                                  <i class="fas fa-print"></i>
+                              </button>
+                          </span>
+                      </div>
+                  </li>
+              `
+          });
       });
-    });
   }
   return filesData;
+}
+
+// --- Event Delegation for Dynamically Added Buttons ---
+$(document).on('click', '.preview-btn', function() {
+  const previewUrl = $(this).data('preview-url');
+  previewFile(previewUrl);
+});
+
+$(document).on('click', '.print-btn', function() {
+  const printUrl = $(this).data('print-url');
+  printFile(printUrl);
+});
+
+function previewFile(url) {
+  $('#filePreviewFrame').attr('src', url);
+  $('#filePreviewModal').modal('show');
+}
+
+function printFile(url) {
+  let printWindow = window.open(url, '_blank');
+  printWindow.onload = function() {
+      printWindow.print();
+  };
 }
 
 var fuse; // Fuse search instance
@@ -240,53 +262,30 @@ $(document).ready(function() {
   // Initialize Fuse.js with the new files data
   let fuseFilesData = buildFilesDataFromFolders();
   fuse = new Fuse(fuseFilesData, { keys: ["name", "tags"], threshold: 0.4 });
-  
+
   // Build the datalist for search suggestions
   let suggestionsSet = new Set();
   fuseFilesData.forEach(item => {
-    suggestionsSet.add(item.name);
+      suggestionsSet.add(item.name);
   });
   let suggestionsList = Array.from(suggestionsSet).filter(s => s && s.length);
   let optionsHTML = suggestionsList.map(s => `<option value="${s}">`).join('');
   $('#fileSuggestions').html(optionsHTML);
-  
-  // Initialize Flatpickr for the Age Calculator inputs
-  flatpickr("#dobInput", {
-  altInput: true,
-  altFormat: "F j, Y",
-  dateFormat: "Y-m-d",
-  allowInput: false,
-  onReady: function(selectedDates, dateStr, instance) {
-    if (!instance.altInput.value) {
-      instance.altInput.setAttribute("placeholder", "DDMMYY");
-    }
-  }
-});
 
-flatpickr("#refDateInput", {
-  altInput: true,
-  altFormat: "F j, Y",
-  dateFormat: "Y-m-d",
-  allowInput: false,
-  onReady: function(selectedDates, dateStr, instance) {
-    if (!instance.altInput.value) {
-      instance.altInput.setAttribute("placeholder", "DDMMYY");
-    }
-  }
-});
+  showSection(localStorage.getItem("activeSection") || 'home');
 });
 
 function showSection(section) {
   $('#homeSection, #updatesSection, #categorySection').hide();
   if (section === 'home') {
-    $('#homeSection').show();
+      $('#homeSection').show();
   } else if (section === 'updates') {
-    // Show the section and reset opacity and pointer events
-    $('#updatesSection').show().css({ 'opacity': '1', 'pointer-events': 'auto' });
+      // Show the section and reset opacity and pointer events
+      $('#updatesSection').show().css({ 'opacity': '1', 'pointer-events': 'auto' });
   } else if (section === 'category') {
-    $('#categorySection').show();
-    $('#folderListView').show();
-    $('#folderDetailView').hide();
+      $('#categorySection').show();
+      $('#folderListView').show();
+      $('#folderDetailView').hide();
   }
   $("#searchResultsList").empty();
   $("#searchResults").hide();
@@ -303,15 +302,15 @@ function searchFunction(e) {
   var results = fuse.search(query);
   $("#searchResultsList").empty();
   if (results.length > 0) {
-    results.forEach(function(result) {
-      $("#searchResultsList").append(result.item.element);
-    });
-    $("#folderListView").hide();
-    $("#searchResults").show();
+      results.forEach(function(result) {
+          $("#searchResultsList").append(result.item.element);
+      });
+      $("#folderListView").hide();
+      $("#searchResults").show();
   } else {
-    alert("No matching files found.");
-    $("#folderListView").show();
-    $("#searchResults").hide();
+      alert("No matching files found.");
+      $("#folderListView").show();
+      $("#searchResults").hide();
   }
 }
 
@@ -323,142 +322,151 @@ function resetSearch() {
   $("#folderListView").show();
 }
 
-/* --- Age Calculator --- */
-function calculateAge() {
-  const dobValue = document.getElementById("dobInput").value;
-  let refValue = document.getElementById("refDateInput").value;
-  
-  if (!dobValue) {
-    alert("Please select your date of birth.");
-    return;
-  }
-  
-  const dob = new Date(dobValue);
-  const refDate = refValue ? new Date(refValue) : new Date();
-  
-  let years = refDate.getFullYear() - dob.getFullYear();
-  let months = refDate.getMonth() - dob.getMonth();
-  let days = refDate.getDate() - dob.getDate();
-  
-  if (days < 0) {
-    months--;
-    const prevMonth = new Date(refDate.getFullYear(), refDate.getMonth(), 0);
-    days += prevMonth.getDate();
-  }
-  if (months < 0) {
-    years--;
-    months += 12;
-  }
-  
-  const totalDays = Math.floor((refDate - dob) / (1000 * 60 * 60 * 24));
-  
-  const ageResultEl = document.getElementById("ageResult");
-  ageResultEl.innerHTML = `Age: ${years} years, ${months} months, ${days} days | Total Days: ${totalDays}`;
-  
-  // Remove previous animation classes to re-trigger
-  ageResultEl.classList.remove("cartoon-animation", "result-style");
-  void ageResultEl.offsetWidth;
-  ageResultEl.classList.add("result-style", "cartoon-animation");
-}
+document.addEventListener('DOMContentLoaded', function() {
+  // Toggle collapsible container for IPC/BNS Converter
+  const ipcBnsConverter = document.querySelector('#homeSection .modern-converter:nth-of-type(1)');
+  if (ipcBnsConverter) {
+      const ipcBnsCollapsible = ipcBnsConverter.querySelector('.collapsible');
+      const ipcBnsConverterContainer = ipcBnsConverter.querySelector('.converter-container');
 
-/* --- Converter Functions --- */
-async function fetchIPCtoBNSData() {
-  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuDAxvhH2oEOrQgMk93bECt-FOPzJME4m6dARFxicpI2RMfM7xd7jdHAM86V2C-RRRqZVPrbc_e9pr/pub?gid=625416711&single=true&output=csv";
-  try {
-    const response = await fetch(sheetUrl);
-    const data = await response.text();
-    const rows = data.split("\n").map(row => row.split(","));
-    let ipcToBnsMap = {};
-    rows.slice(1).forEach(row => {
-      let ipc = row[0].trim();
-      let bns = row[1] ? row[1].trim() : "";
-      if (ipc && bns) {
-        ipcToBnsMap[ipc] = bns;
+      if (ipcBnsCollapsible && ipcBnsConverterContainer) {
+          ipcBnsCollapsible.addEventListener('click', function() {
+              this.classList.toggle("active");
+              ipcBnsConverterContainer.style.display = ipcBnsConverterContainer.style.display === "block" ? "none" : "block";
+          });
+
+          // IPC/BNS Converter Logic
+          const converters = [
+              { inputId: 'ipc-input', btnId: 'get-bns-btn', resultId: 'ipc-result', type: 'ipc' },
+              { inputId: 'bns-input', btnId: 'get-ipc-btn', resultId: 'bns-result', type: 'bns' },
+              { inputId: 'crpc-input', btnId: 'get-bnss-btn', resultId: 'crpc-result', type: 'crpc' },
+              { inputId: 'bnss-input', btnId: 'get-crpc-btn', resultId: 'bnss-result', type: 'bnss' }
+          ];
+
+          const sheetURLs = {
+              ipc: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuDAxvhH2oEOrQgMk93bECt-FOPzJME4m6dARFxicpI2RMfM7xd7jdHAM86V2C-RRRqZVPrbc_e9pr/pub?gid=625416711&single=true&output=csv",
+              bns: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7azVyUnZAj2c9HfJVmI6mI8BilIXoHrLG4nqSfeziDV78MACyWFshmWFg5vXVN5ShJuWZYOMRLt3Q/pub?gid=839119086&single=true&output=csv",
+              crpc: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7azVyUnZAj2c9HfJVmI6mI8BilIXoHrLG4nqSfeziDV78MACyWFshmWFg5vXVN5ShJuWZYOMRLt3Q/pub?gid=1820651764&single=true&output=csv",
+              bnss: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7azVyUnZAj2c9HfJVmI6mI8BilIXoHrLG4nqSfeziDV78MACyWFshmWFg5vXVN5ShJuWZYOMRLt3Q/pub?gid=698007965&single=true&output=csv"
+          };
+
+          converters.forEach(conv => {
+              const inputField = document.getElementById(conv.inputId);
+              const convertBtn = document.getElementById(conv.btnId);
+              const resultContainer = document.getElementById(conv.resultId);
+
+              inputField.addEventListener('input', function() {
+                  converters.forEach(otherConv => {
+                      if (otherConv.inputId !== conv.inputId) {
+                          document.getElementById(otherConv.inputId).value = "";
+                      }
+                  });
+                  converters.forEach(otherConv => {
+                      document.getElementById(otherConv.btnId).style.display = "none";
+                      document.getElementById(otherConv.resultId).innerHTML = "";
+                  });
+                  if (this.value.trim().length > 0) {
+                      convertBtn.style.display = "inline-block";
+                  }
+              });
+
+              convertBtn.addEventListener('click', function() {
+                  const queryValue = inputField.value.trim();
+                  if (!queryValue) return;
+                  resultContainer.innerHTML = '<div class="loader"></div>';
+                  fetchConversion(sheetURLs[conv.type], queryValue, resultContainer);
+              });
+          });
+
+          async function fetchConversion(url, queryValue, resultContainer) {
+              try {
+                  const response = await fetch(url);
+                  if (!response.ok) throw new Error("Network error");
+                  const csvText = await response.text();
+                  const rows = csvText.split('\n').filter(row => row.trim() !== "");
+                  let found = false;
+                  for (let row of rows) {
+                      const columns = row.split(',');
+                      if (columns[0].trim().toLowerCase() === queryValue.toLowerCase()) {
+                          found = true;
+                          showResult(resultContainer, columns[1].trim());
+                          break;
+                      }
+                  }
+                  if (!found) {
+                      showResult(resultContainer, "No result found");
+                  }
+              } catch (error) {
+                  showResult(resultContainer, "Error fetching data");
+                  console.error(error);
+              }
+          }
+
+          function showResult(container, text) {
+              container.innerHTML = `<div class="result">${text}</div>`;
+          }
       }
-    });
-    return ipcToBnsMap;
-  } catch (error) {
-    console.error("Error fetching IPC-to-BNS data:", error);
-    return {};
   }
-}
 
-async function convertIPCtoBNS() {
-  const inputIPC = document.getElementById("ipcInput").value.trim();
-  const resultField = document.getElementById("ipcResult");
-  
-  // Remove previous animation classes to re-trigger
-  resultField.classList.remove("cartoon-animation", "result-style");
-  
-  if (!inputIPC) {
-    resultField.innerText = "Please enter an IPC section.";
-    // Force reflow to restart animation
-    void resultField.offsetWidth;
-    resultField.classList.add("result-style", "cartoon-animation");
-    return;
-  }
-  
-  const ipcData = await fetchIPCtoBNSData();
-  const bnsEquivalent = ipcData[inputIPC];
-  
-  if (bnsEquivalent) {
-    resultField.innerText = bnsEquivalent;
-  } else {
-    resultField.innerText = "No matching BNS section found.";
-  }
-  
-  // Force reflow and then add animation classes
-  void resultField.offsetWidth;
-  resultField.classList.add("result-style", "cartoon-animation");
-}
+// Age Calculator Functionality
+const ageCalculatorSection = document.querySelector('#homeSection .modern-converter:nth-of-type(2)');
+if (ageCalculatorSection) {
+    const ageCollapsible = ageCalculatorSection.querySelector('.collapsible');
+    const ageConverterContainer = ageCalculatorSection.querySelector('.converter-container');
 
+    if (ageCollapsible && ageConverterContainer) {
+        ageCollapsible.addEventListener('click', function() {
+            this.classList.toggle("active");
+            ageConverterContainer.style.display = ageConverterContainer.style.display === "block" ? "none" : "block";
+        });
 
-async function fetchCrPCtoBNSSData() {
-  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuDAxvhH2oEOrQgMk93bECt-FOPzJME4m6dARFxicpI2RMfM7xd7jdHAM86V2C-RRRqZVPrbc_e9pr/pub?gid=216325542&single=true&output=csv";
-  try {
-    const response = await fetch(sheetUrl);
-    const data = await response.text();
-    const rows = data.split("\n").map(row => row.split(","));
-    let crpcToBnssMap = {};
-    rows.slice(1).forEach(row => {
-      let crpc = row[0].trim();
-      let bnss = row[1] ? row[1].trim() : "";
-      if (crpc && bnss) {
-        crpcToBnssMap[crpc] = bnss;
-      }
-    });
-    return crpcToBnssMap;
-  } catch (error) {
-    console.error("Error fetching CrPC-to-BNSS data:", error);
-    return {};
-  }
-}
+        const birthdateInput = document.getElementById('birthdate');
+        const currentdateInput = document.getElementById('currentdate');
+        const calculateAgeBtn = document.getElementById('calculate-age-btn');
+        const ageResultContainer = document.getElementById('age-result');
 
-async function convertCrPcToBNSS() {
-  const inputCrpc = document.getElementById('crpcInput').value.trim();
-  const resultField = document.getElementById('crpcResult');
-  
-  // Remove previous animation classes to re-trigger
-  resultField.classList.remove("cartoon-animation", "result-style");
-  
-  if (!inputCrpc) {
-    resultField.innerText = "Please enter a CrPC value.";
-    void resultField.offsetWidth;
-    resultField.classList.add("result-style", "cartoon-animation");
-    return;
-  }
-  
-  const crpcData = await fetchCrPCtoBNSSData();
-  const bnssEquivalent = crpcData[inputCrpc];
-  
-  if (bnssEquivalent) {
-    resultField.innerText = bnssEquivalent;
-  } else {
-    resultField.innerText = "No matching BNSS section found.";
-  }
-  
-  void resultField.offsetWidth;
-  resultField.classList.add("result-style", "cartoon-animation");
+        // Initialize Flatpickr for date inputs
+        flatpickr(birthdateInput, {
+            dateFormat: "d/m/Y",
+            allowInput: false, // Prevent manual input to enforce format
+        });
+        flatpickr(currentdateInput, {
+            dateFormat: "d/m/Y",
+            allowInput: false,
+            defaultValue: formatDateToDDMMYYYY(new Date()), // Set default to current date
+        });
+
+        if (calculateAgeBtn) {
+            calculateAgeBtn.addEventListener('click', function() {
+                const birthdateValue = birthdateInput.value;
+                const currentdateValue = currentdateInput.value;
+
+                if (!birthdateValue) {
+                    ageResultContainer.textContent = "<div class='result error'>Please enter your birth date.</div>";
+                    return;
+                }
+
+                const birthDate = parseDDMMYYYY(birthdateValue);
+                const currentDate = currentdateValue ? parseDDMMYYYY(currentdateValue) : new Date();
+
+                if (!birthDate || !currentDate) {
+                    ageResultContainer.textContent = "<div class='result error'>Invalid date format. Please use DD/MM/YYYY.</div>";
+                    return;
+                }
+
+                const ageInMilliseconds = currentDate.getTime() - birthDate.getTime();
+                const totalDays = Math.floor(ageInMilliseconds / (1000 * 60 * 60 * 24));
+                const years = Math.floor(totalDays / 365.25);
+                const remainingDaysAfterYears = totalDays - years * 365.25;
+                const months = Math.floor(remainingDaysAfterYears / 30.44); // Average days in a month
+                const days = Math.floor(remainingDaysAfterYears - months * 30.44);
+
+                let resultText = `<div class="result">Age: ${years} years, ${months} months, ${Math.abs(days)} days</div>`;
+                resultText += `<div class="result">Total Days: ${totalDays} days</div>`;
+                ageResultContainer.innerHTML = resultText;
+            });
+        }
+    }
 }
 
 /* --- Folder View & Other Functions --- */
@@ -487,14 +495,23 @@ $('#darkModeToggle').on('click', function() {
   $('body').toggleClass('dark-mode');
 });
 
-function previewFile(url) {
-  $('#filePreviewFrame').attr('src', url);
-  $('#filePreviewModal').modal('show');
+// Helper function to format date to DD/MM/YYYY
+function formatDateToDDMMYYYY(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
 }
 
-function printFile(url) {
-  let printWindow = window.open(url, '_blank');
-  printWindow.onload = function() {
-    printWindow.print();
-  };
+// Helper function to parse DD/MM/YYYY string to Date object
+function parseDDMMYYYY(dateString) {
+    const parts = dateString.split('/');
+    if (parts.length === 3) {
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
+        const year = parseInt(parts[2], 10);
+        return new Date(year, month, day);
+    }
+    return null;
 }
+});
