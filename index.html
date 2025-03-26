@@ -23,7 +23,7 @@
   
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
+
   <!-- Flatpickr CSS for date picker -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   
@@ -75,100 +75,52 @@
   <div class="container mt-4 content-area">
     <!-- Home Section: Converters as an accordion -->
     <div id="homeSection">
-      <div class="converter-container">
-        <div id="converterAccordion" class="accordion">
-          <!-- IPC to BNS Converter Card -->
-          <div class="card">
-            <div class="card-header" id="headingIPC">
-              <h4 class="mb-0">
-                <button class="btn btn-link converter-toggle collapsed" data-toggle="collapse" data-target="#collapseIPC" aria-expanded="false" aria-controls="collapseIPC">
-                  IPC को BNS में बदलें
-                </button>
-              </h4>
+      <div class="modern-converter">
+        <div class="container">
+          <button class="collapsible">IPC ⇌ BNS &amp; CrPC ⇌ BNSS</button>
+          <div class="converter-container">
+            <div class="converter-section">
+              <label for="ipc-input">IPC:</label>
+              <input type="text" id="ipc-input" placeholder="Enter IPC value">
+              <button class="convert-btn" id="get-bns-btn" data-type="ipc" style="display:none;">BNS में बदलें</button>
+              <div class="result-container" id="ipc-result"></div>
             </div>
-            <div id="collapseIPC" class="collapse" aria-labelledby="headingIPC" data-parent="#converterAccordion">
-              <div class="card-body">
-                <div class="converter-box">
-                  <div class="form-group">
-                    <input type="text" class="form-control" id="ipcInput" placeholder="Enter IPC value">
-                  </div>
-                  <button class="btn material-btn" onclick="convertIPCtoBNS()">Convert</button>
-                  <div class="result mt-2"><strong>Result:</strong> <span id="ipcResult"></span></div>
-                  <p class="small mt-1">
-                    (For reference only: 
-                    <a href="https://bprd.nic.in/uploads/pdf/COMPARISON%20SUMMARY%20BNS%20to%20IPC%20.pdf" target="_blank">
-                      Detailed PDF Here
-                    </a>)
-                  </p>
-                </div>
-              </div>
+            <div class="converter-section">
+              <label for="bns-input">BNS:</label>
+              <input type="text" id="bns-input" placeholder="Enter BNS value">
+              <button class="convert-btn" id="get-ipc-btn" data-type="bns" style="display:none;">IPC में बदलें</button>
+              <div class="result-container" id="bns-result"></div>
             </div>
-          </div>
-          <!-- CrPC to BNSS Converter Card -->
-          <div class="card">
-            <div class="card-header" id="headingCrPC">
-              <h4 class="mb-0">
-                <button class="btn btn-link converter-toggle collapsed" data-toggle="collapse" data-target="#collapseCrPC" aria-expanded="false" aria-controls="collapseCrPC">
-                  CrPC को BNSS में बदलें
-                </button>
-              </h4>
+            <div class="converter-section">
+              <label for="crpc-input">CrPC:</label>
+              <input type="text" id="crpc-input" placeholder="Enter CrPC value">
+              <button class="convert-btn" id="get-bnss-btn" data-type="crpc" style="display:none;">BNSS में बदलें</button>
+              <div class="result-container" id="crpc-result"></div>
             </div>
-            <div id="collapseCrPC" class="collapse" aria-labelledby="headingCrPC" data-parent="#converterAccordion">
-              <div class="card-body">
-                <div class="converter-box">
-                  <div class="form-group">
-                    <input type="text" class="form-control" id="crpcInput" placeholder="Enter CrPc value">
-                  </div>
-                  <button class="btn material-btn" onclick="convertCrPcToBNSS()">Convert</button>
-                  <div class="result mt-2"><strong>Result:</strong> <span id="crpcResult"></span></div>
-                  <p class="small mt-1">
-                    (For reference only: 
-                    <a href="https://bprd.nic.in/uploads/pdf/Comparison%20summary%20BNSS%20to%20CrPC.pdf" target="_blank">
-                      Detailed PDF Here
-                    </a>)
-                  </p>
-                </div>
-              </div>
+            <div class="converter-section">
+              <label for="bnss-input">BNSS:</label>
+              <input type="text" id="bnss-input" placeholder="Enter BNSS value">
+              <button class="convert-btn" id="get-crpc-btn" data-type="bnss" style="display:none;">CrPC में बदलें</button>
+              <div class="result-container" id="bnss-result"></div>
             </div>
           </div>
-          <!-- Age Calculator Card -->
-          <div class="card">
-            <div class="card-header" id="headingAge">
-              <h4 class="mb-0">
-                <button class="btn btn-link converter-toggle collapsed" data-toggle="collapse" data-target="#collapseAge" aria-expanded="false" aria-controls="collapseAge">
-                  Age Calculator
-                </button>
-              </h4>
+        </div>
+      </div>
+      <div class="modern-converter">
+        <button class="collapsible">Age Calculator</button>
+        <div class="converter-container">
+            <div class="converter-section">
+                <label for="birthdate">जन्म तिथि</label>
+                <input type="text" id="birthdate" placeholder="DD/MM/YYYY">
             </div>
-            <div id="collapseAge" class="collapse" aria-labelledby="headingAge" data-parent="#converterAccordion">
-              <div class="card-body">
-                <div class="converter-box age-calculator">
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <label for="dobInput">जन्म तिथि</label>
-                        <div class="date-input-wrapper">
-                          <input type="text" class="form-control" id="dobInput" placeholder="DDMMYY" readonly>
-                          <i class="fas fa-calendar-alt date-icon"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                        <label for="refDateInput">कब तक?</label>
-                        <div class="date-input-wrapper">
-                          <input type="text" class="form-control" id="refDateInput" placeholder="DDMMYY" readonly>
-                          <i class="fas fa-calendar-alt date-icon"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <button class="btn material-btn" onclick="calculateAge()">Convert</button>
-                  <div id="ageResult" class="result mt-2"></div>
-                </div>
-              </div>
+            <div class="converter-section">
+                <label for="currentdate">किस तिथि को?</label>
+                <input type="text" id="currentdate" placeholder="DD/MM/YYYY">
             </div>
-          </div>
+            <button class="convert-btn" id="calculate-age-btn">उम्र की गणना</button>
+            <div class="result-container" id="age-result"></div>
+        </div>
+    </div>
           <!-- High Court Case Status Button Card -->
 <div class="card">
   <div class="card-header" id="headingHighCourt">
@@ -179,6 +131,16 @@
     </h4>
   </div>
 </div>
+          <!-- UPP Salary Slip Koshvani Button Card -->
+          <div class="card">
+            <div class="card-header" id="headingHighCourt">
+              <h4 class="mb-0">
+                <a class="btn salary-slip-btn" href="https://koshvani.up.nic.in/KoshReports/EmpSalDetail.aspx" target="_blank">
+                  UPP Salary Slip Koshvani
+                </a>
+              </h4>
+            </div>
+          </div>
         </div><!-- End of accordion -->
       </div>
     </div>
