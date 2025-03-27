@@ -522,3 +522,26 @@ function parseDDMMYYYY(dateString) {
     return null;
 }
 });
+
+// Twitter Timeline Toggle Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtns = document.querySelectorAll('.twitter-toggle-btn');
+    
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons and timelines
+            toggleBtns.forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.timeline-container').forEach(t => t.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding timeline
+            this.classList.add('active');
+            const account = this.dataset.account;
+            document.getElementById(`${account}Timeline`).classList.add('active');
+            
+            // Reload Twitter widgets to ensure proper rendering
+            if (window.twttr && window.twttr.widgets) {
+                window.twttr.widgets.load();
+            }
+        });
+    });
+});
