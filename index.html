@@ -154,28 +154,51 @@
       </div>
 <!-- Updates Section (formerly Offers) -->
 <div id="updatesSection" style="opacity:0; pointer-events:none; height:600px; transition: opacity 0.5s ease-in-out;">
+  <!-- Twitter Account Toggle -->
+  <div class="twitter-toggle">
+    <button class="twitter-toggle-btn active" data-account="official">Official</button>
+    <button class="twitter-toggle-btn" data-account="problems">ProblemOfPolice</button>
+  </div>
+  
   <!-- Modern Custom Progress Bar shown while Twitter timeline loads -->
   <div id="twitterProgress" class="modern-progress">
     <div class="modern-progress-bar"></div>
   </div>
-  <!-- Embedded Twitter timeline for @uppolice with no borders, header, or footer -->
-  <a class="twitter-timeline" 
-     data-height="600" 
-     data-theme="light" 
-     data-chrome="noheader nofooter noborders transparent" 
-     href="https://twitter.com/uppolice">
-    Please Wait, News is Loading...
-  </a>
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  <!-- Custom script to hide progress bar when timeline is rendered -->
-  <script>
-    window.twttr = window.twttr || {};
-    twttr.ready(function (twttr) {
-      twttr.events.bind('rendered', function (event) {
-        document.getElementById('twitterProgress').style.display = 'none';
-      });
-    });
-  </script>
+  
+  <!-- Container for Twitter timelines -->
+  <div id="twitterContainer">
+    <!-- Official Timeline -->
+    <div id="officialTimeline" class="timeline-container active">
+      <a class="twitter-timeline" 
+         data-height="600" 
+         data-theme="light" 
+         data-chrome="noheader nofooter noborders transparent" 
+         href="https://twitter.com/uppolice">
+        Please Wait, News is Loading...
+      </a>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <!-- Custom script to hide progress bar when timeline is rendered -->
+      <script>
+        window.twttr = window.twttr || {};
+        twttr.ready(function (twttr) {
+          twttr.events.bind('rendered', function (event) {
+            document.getElementById('twitterProgress').style.display = 'none';
+          });
+        });
+      </script>
+    </div>
+    
+    <!-- Problems Timeline -->
+    <div id="problemsTimeline" class="timeline-container">
+      <a class="twitter-timeline" 
+         data-height="600" 
+         data-theme="light" 
+         data-chrome="noheader nofooter noborders transparent" 
+         href="https://twitter.com/problemofpolice">
+        Please Wait, News is Loading...
+      </a>
+    </div>
+  </div>
 </div>
     <!-- Category Section (Folders & Search Results) -->
     <div id="categorySection" style="display:none;">
