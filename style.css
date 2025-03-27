@@ -1,7 +1,3 @@
-#ipcResult, #crpcResult {
-  display: inline-block;
-}
-
 /* High Court Button Styles with !important to override btn-link */
 .high-court-btn {
   background-color: #007bff !important;
@@ -81,13 +77,33 @@ input:checked + .slider:before {
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 1100;
-  transition: transform 0.3s ease, color 0.3s ease;
+  z-index: 1050; /* Reduced from 1100 to be below modal */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#menu-toggle i {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Menu toggle active state */
+#menu-toggle.active i {
+  transform: rotate(180deg) scale(1.1);
 }
 
 /* Optional: Slight hover effect */
 #menu-toggle:hover {
   color: #ffcc00;
+  transform: scale(1.1);
+}
+
+#menu-toggle:active {
+  transform: scale(0.95);
 }
 
 /* Offcanvas Menu Styling */
@@ -229,7 +245,7 @@ body {
   border-radius: 4px;
   padding: 8px 40px 8px 10px;
   transition: border-color 0.3s;
-  width: 220px;
+  width: 200px;
   background-color: transparent;
   color: #fff;
 }
@@ -342,26 +358,82 @@ body.dark-mode .result {
 .material-card:hover {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-
-/* Age Calculator Specific Styling for Light Theme */
-.converter-box.age-calculator label {
-  color: #000000;
-  font-weight: 600;
-}
-.converter-box.age-calculator input,
-.converter-box.age-calculator button {
-  color: #000000;
-}
-
 /* Folder Cards */
 .folder-card {
   margin-bottom: 20px;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .folder-card .card-body {
-  background-color: #f7f7f7;
-  padding: 15px;
-  font-size: 1.1rem;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #333;
+  min-height: 80px;
+  background: transparent;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.folder-card:hover {
+  transform: translateY(-5px);
+}
+
+.folder-card:hover .card-body {
+  border-color: #5c6bc0;
+  box-shadow: 0 8px 15px rgba(92, 107, 192, 0.2);
+}
+
+.folder-card .fas.fa-folder {
+  font-size: 24px;
+  color: #5c6bc0;
+  padding: 12px;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  background: rgba(92, 107, 192, 0.1);
+}
+
+/* Dark mode adjustments for folders */
+body.dark-mode .folder-card .card-body {
+  color: #fff;
+  border-color: #444;
+}
+
+body.dark-mode .folder-card:hover .card-body {
+  border-color: #4a90e2;
+  box-shadow: 0 8px 15px rgba(74, 144, 226, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .folder-card .card-body {
+    padding: 15px;
+    min-height: 70px;
+  }
+  
+  .folder-card .fas.fa-folder {
+    font-size: 20px;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .folder-card .card-body span {
+    font-size: 1.1rem;
+  }
 }
 
 /* Optimize file names for dark mode */
@@ -404,6 +476,28 @@ body.dark-mode .list-group-item {
   border: none;
   width: 100%;
   height: 80vh;
+}
+
+/* Modal Styles Enhancement */
+.modal {
+  z-index: 1060 !important; /* Ensure modal is above menu toggle */
+}
+
+.modal-content {
+  z-index: 1061 !important; /* Ensure modal content is above base modal */
+}
+
+.modal .close {
+  z-index: 1062 !important; /* Ensure close button is topmost */
+  position: relative;
+  opacity: 1;
+  color: #333;
+  font-size: 24px;
+  padding: 0.5rem;
+}
+
+body.dark-mode .modal .close {
+  color: #fff;
 }
 
 /* Additional Adaptability & Transition for Dark/Light Theme */
@@ -579,9 +673,7 @@ body.dark-mode .folder-card .card-body {
   transform: scale(0.98);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
-.converter-box.age-calculator button {
-  color: #fff !important;
-}
+
 /* For light mode */
 .flatpickr-input[readonly].flatpickr-alt-input::placeholder {
   color: #212121; /* Adjust as needed for contrast */
@@ -599,23 +691,6 @@ body.dark-mode .flatpickr-input[readonly].flatpickr-alt-input::placeholder {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif; /* Use your website's font */
-}
-
-.modern-converter body {
-  /* Remove body styles to avoid conflicts */
-  padding: 0;
-  background: none; /* Or your website's background */
-}
-
-.converter-wrapper {
-  display: flex;
-  justify-content: flex-start; /* Align the converter to the start (left) */
-  width: auto; /* Let it take the width of its content */
-  margin-top: 10px; /* Add some space between the button and converter */
-}
-
-.modern-converter {
-  width: auto; /* Let the converter width be determined by its content */
 }
 
 .modern-converter .container {
@@ -719,14 +794,6 @@ body.dark-mode .flatpickr-input[readonly].flatpickr-alt-input::placeholder {
   animation: shake 0.5s;
 }
 
-@keyframes shake {
-  0% { transform: translateX(0px); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0px); }
-}
-
 /* Dark Mode adjustments (if your website has dark mode) */
 body.dark-mode .modern-converter .container {
   background-color: #424242; /* Match your dark mode card background */
@@ -785,15 +852,88 @@ body.dark-mode .modern-converter .result {
 
 /* Category Section Optimization */
 #categorySection {
-  max-width: 100%;
-  padding: 0 15px;
+  width: 100%;
+  padding: 15px;
   margin: 0 auto;
 }
 
 .folders-container {
   padding-bottom: 80px;
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
+}
+
+.folder-card {
+  margin-bottom: 15px;
+  height: auto;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.folder-card .card-body {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+#folderDetailList {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#folderDetailList .list-group-item {
+  margin-bottom: 10px;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 992px) {
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  #categorySection {
+    padding: 10px;
+  }
+  
+  .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .folder-card .card-body {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+  
+  #folderTitle {
+    font-size: 1.3rem;
+    margin: 10px 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .folder-card .card-body {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+  
+  #folderDetailList .list-group-item {
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  
+  #backToFolders {
+    width: 100%;
+    margin: 10px 0;
+  }
 }
 
 /* Responsive Folder Cards */
@@ -913,4 +1053,48 @@ body.dark-mode .warning-text .warning-link {
 
 body.dark-mode .warning-text .warning-link:hover {
   color: #64b5f6;
+}
+
+/* Twitter Toggle Styles */
+.twitter-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.twitter-toggle-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  background: #f0f0f0;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.twitter-toggle-btn.active {
+  background: linear-gradient(135deg, #3f51b5, #5c6bc0);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Dark mode styles for toggle */
+body.dark-mode .twitter-toggle-btn {
+  background: #424242;
+  color: #aaa;
+}
+
+body.dark-mode .twitter-toggle-btn.active {
+  background: linear-gradient(135deg, #4a90e2, #3a78c2);
+  color: white;
+}
+
+.timeline-container {
+  display: none;
+}
+
+.timeline-container.active {
+  display: block;
 }
