@@ -1,5 +1,6 @@
-const CACHE_NAME = "police-files-cache-v3"; // Bumped version
-const TWITTER_CACHE = "twitter-cache-v1";
+const CACHE_NAME = "police-files-cache-v4";
+const TWITTER_CACHE = "twitter-cache-v2";
+const PDF_CACHE = "pdf-cache-v1";
 
 const urlsToCache = [
   '/index.html',
@@ -19,7 +20,7 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME, TWITTER_CACHE];
+  const cacheWhitelist = [CACHE_NAME, TWITTER_CACHE, PDF_CACHE];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
@@ -37,25 +38,45 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Handle Twitter content differently
-  if (url.hostname.includes('twitter.com') || url.hostname.includes('twimg.com')) {
+  // Handle PDF files from Google Drive
+  if (url.hostname.includes('drive.google.com') && url.pathname.includes('uc')) {
     event.respondWith(
-      caches.open(TWITTER_CACHE).then(cache => {
+      caches.open(PDF_CACHE).then(cache => {
         return cache.match(event.request).then(cachedResponse => {
-          // Return cached response if available
+          // Return cached PDF if available and less than 7 days old
           if (cachedResponse) {
-            // Fetch new version in background
-            fetch(event.request).then(response => {
-              cache.put(event.request, response.clone());
-            }).catch(() => {/* Ignore errors */});
-            return cachedResponse;
+            const cachedDate = new Date(cachedResponse.headers.get('date'));
+            const now = new Date();
+            const daysOld = (now - cachedDate) / (1000 * 60 * 60 * 24);
+            
+            if (daysOld < 7) {
+              return cachedResponse;
+            }
           }
 
-          // If not in cache, fetch from network
+          // Fetch new PDF
           return fetch(event.request).then(response => {
-            cache.put(event.request, response.clone());
+            if (response.ok) {
+              cache.put(event.request, response.clone());
+            }
             return response;
+          }).catch(error => {
+            // Return cached version if network fetch fails
+            return cachedResponse || Promise.reject(error);
           });
+        });
+      })
+    );
+  } 
+  // Handle Twitter content
+  else if (url.hostname.includes('twitter.com') || url.hostname.includes('twimg.com')) {
+    event.respondWith(
+      caches.open(TWITTER_CACHE).then(cache => {
+        return fetch(event.request).then(response => {
+          cache.put(event.request, response.clone());
+          return response;
+        }).catch(() => {
+          return cache.match(event.request);
         });
       })
     );
@@ -81,3 +102,36 @@ self.addEventListener('fetch', event => {
     );
   }
 });
+
+// Add periodic cache cleanup
+self.addEventListener('periodicsync', event => {
+  if (event.tag === 'cache-cleanup') {
+    event.waitUntil(
+      Promise.all([
+        cleanupCache(PDF_CACHE, 7), // Clean PDFs older than 7 days
+        cleanupCache(TWITTER_CACHE, 1) // Clean Twitter cache older than 1 day
+      ])
+    );
+  }
+});
+
+function cleanupCache(cacheName, maxAgeDays) {
+  return caches.open(cacheName).then(cache => {
+    return cache.keys().then(requests => {
+      return Promise.all(
+        requests.map(request => {
+          return cache.match(request).then(response => {
+            if (response) {
+              const date = new Date(response.headers.get('date'));
+              const now = new Date();
+              const daysOld = (now - date) / (1000 * 60 * 60 * 24);
+              if (daysOld > maxAgeDays) {
+                return cache.delete(request);
+              }
+            }
+          });
+        })
+      );
+    });
+  });
+}
