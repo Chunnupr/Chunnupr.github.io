@@ -545,3 +545,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+function handleSearch(inputId) {
+    // Clear all convert buttons and all details links first
+    const allButtons = document.querySelectorAll('.convert-btn');
+    const allDetailsContainers = document.querySelectorAll('.all-details-container');
+    
+    allButtons.forEach(btn => btn.style.display = 'none');
+    allDetailsContainers.forEach(container => container.innerHTML = '');
+
+    const input = document.getElementById(inputId);
+    const value = input.value.trim();
+    const type = inputId.split('-')[0].toUpperCase(); // Gets IPC, BNS, CRPC, or BNSS
+    
+    if (value) {
+        // Show the corresponding convert button
+        const convertBtn = document.querySelector(`[data-type="${type.toLowerCase()}"]`);
+        if (convertBtn) {
+            convertBtn.style.display = 'block';
+        }
+        
+        // Create and show the "All Details" link only for the active input
+        const detailsContainer = document.getElementById(`${type.toLowerCase()}-details`);
+        const searchQuery = `${value} ${type} in hindi lawrato`;
+        const encodedQuery = encodeURIComponent(searchQuery);
+        
+        detailsContainer.innerHTML = `
+            <a href="https://www.google.com/search?q=${encodedQuery}" 
+               target="_blank" 
+               class="all-details-link">
+               विस्तृत जानकारी<i class="fas fa-external-link-alt"></i>
+            </a>`;
+    }
+}
+
+// Add event listeners for all input fields
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = ['ipc-input', 'bns-input', 'crpc-input', 'bnss-input'];
+    inputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        input.addEventListener('input', function() {
+            handleSearch(inputId);
+        });
+    });
+});
