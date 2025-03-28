@@ -1098,3 +1098,83 @@ body.dark-mode .twitter-toggle-btn.active {
 .timeline-container.active {
   display: block;
 }
+
+/* All Details Container */
+.all-details-container {
+    margin-top: 10px;
+}
+
+.all-details-link {
+    display: inline-block;
+    padding: 6px 12px;
+    background: linear-gradient(45deg, #3498db, #2980b9); /* Light blue gradient */
+    border: none;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.85em;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy transition */
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.all-details-link:hover {
+    background: linear-gradient(45deg, #2980b9, #2574a9);
+    transform: scale(1.1); /* Pop out effect on hover */
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+.all-details-link:active {
+    transform: scale(0.95); /* Slight press effect */
+}
+
+.all-details-link i {
+    margin-left: 6px;
+    font-size: 0.8em;
+    animation: bounce 1s infinite;
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    70% {
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes subtleGlowing {
+    0% {
+        box-shadow: 0 0 4px #3498db,
+                    0 0 6px #3498db;
+    }
+    50% {
+        box-shadow: 0 0 8px #3498db,
+                    0 0 12px #2980b9;
+    }
+    100% {
+        box-shadow: 0 0 4px #3498db,
+                    0 0 6px #3498db;
+    }
+}
+
+/* Dark mode support */
+.dark-mode .all-details-link {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+    animation: darkSubtleGlowing 2s infinite;
+}
+
+.dark-mode .all-details-link:hover {
+    background: linear-gradient(45deg, #2980b9, #2574a9);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
