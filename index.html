@@ -39,13 +39,66 @@
 
   <title>Police Files - UP Police Documents & Resources</title>
 
-  <!-- Google Analytics: Replace G-C4HYJ14HYY with your tracking ID -->
+  <!-- Enhanced Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C4HYJ14HYY"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-C4HYJ14HYY');
+    gtag('config', 'G-C4HYJ14HYY', {
+      'send_page_view': true,
+      'page_title': document.title,
+      'page_location': window.location.href,
+      'user_engagement': true
+    });
+
+    // Track time spent on page
+    let startTime = new Date();
+    window.addEventListener('beforeunload', function() {
+      let timeSpent = Math.round((new Date() - startTime) / 1000);
+      gtag('event', 'time_spent', {
+        'page': window.location.pathname,
+        'time_seconds': timeSpent
+      });
+    });
+
+    // Track clicks on important elements
+    document.addEventListener('DOMContentLoaded', function() {
+      // Track folder clicks
+      document.querySelectorAll('.folder-card').forEach(folder => {
+        folder.addEventListener('click', function() {
+          gtag('event', 'folder_click', {
+            'folder_name': this.querySelector('.card-body').textContent.trim()
+          });
+        });
+      });
+
+      // Track converter usage
+      document.querySelectorAll('.convert-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          gtag('event', 'conversion_attempt', {
+            'conversion_type': this.dataset.type
+          });
+        });
+      });
+
+      // Track external link clicks
+      document.querySelectorAll('a[href^="http"]').forEach(link => {
+        link.addEventListener('click', function() {
+          gtag('event', 'external_link_click', {
+            'link_url': this.href,
+            'link_text': this.textContent.trim()
+          });
+        });
+      });
+
+      // Track search interactions
+      document.getElementById('searchInput').addEventListener('search', function() {
+        gtag('event', 'search', {
+          'search_term': this.value
+        });
+      });
+    });
   </script>
   
   <!-- Google Fonts for a modern look -->
