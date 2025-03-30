@@ -187,28 +187,28 @@
           <div class="converter-container">
             <div class="converter-section">
               <label for="ipc-input">IPC:</label>
-              <input type="text" id="ipc-input" placeholder="Enter IPC value">
+              <input type="text" id="ipc-input" placeholder="Enter IPC value" onkeypress="handleKeyPress(event, 'get-bns-btn')">
               <button class="convert-btn" id="get-bns-btn" data-type="ipc" style="display:none;">BNS में बदलें</button>
               <div class="result-container" id="ipc-result"></div>
               <div class="all-details-container" id="ipc-details"></div>
             </div>
             <div class="converter-section">
               <label for="bns-input">BNS:</label>
-              <input type="text" id="bns-input" placeholder="Enter BNS value">
+              <input type="text" id="bns-input" placeholder="Enter BNS value" onkeypress="handleKeyPress(event, 'get-ipc-btn')">
               <button class="convert-btn" id="get-ipc-btn" data-type="bns" style="display:none;">IPC में बदलें</button>
               <div class="result-container" id="bns-result"></div>
               <div class="all-details-container" id="bns-details"></div>
             </div>
             <div class="converter-section">
               <label for="crpc-input">CrPC:</label>
-              <input type="text" id="crpc-input" placeholder="Enter CrPC value">
+              <input type="text" id="crpc-input" placeholder="Enter CrPC value" onkeypress="handleKeyPress(event, 'get-bnss-btn')">
               <button class="convert-btn" id="get-bnss-btn" data-type="crpc" style="display:none;">BNSS में बदलें</button>
               <div class="result-container" id="crpc-result"></div>
               <div class="all-details-container" id="crpc-details"></div>
             </div>
             <div class="converter-section">
               <label for="bnss-input">BNSS:</label>
-              <input type="text" id="bnss-input" placeholder="Enter BNSS value">
+              <input type="text" id="bnss-input" placeholder="Enter BNSS value" onkeypress="handleKeyPress(event, 'get-crpc-btn')">
               <button class="convert-btn" id="get-crpc-btn" data-type="bnss" style="display:none;">CrPC में बदलें</button>
               <div class="result-container" id="bnss-result"></div>
               <div class="all-details-container" id="bnss-details"></div>
@@ -424,6 +424,13 @@
         document.body.classList.remove('dark-mode');
       }
     });
+
+    function handleKeyPress(event, buttonId) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        document.getElementById(buttonId).click();
+      }
+    }
   </script>
 </body>
 </html>
