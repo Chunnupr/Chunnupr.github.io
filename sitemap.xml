@@ -1,34 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Homepage -->
   <url>
     <loc>https://policefiles.online/</loc>
-    <lastmod>2025-03-20</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2023-11-14</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- About Us Page -->
   <url>
-    <loc>https://policefiles.online/about</loc>
-    <lastmod>2025-03-20</lastmod>
+    <loc>https://policefiles.online/about.html</loc>
+    <lastmod>2023-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- Contact Us Page -->
   <url>
-    <loc>https://policefiles.online/contact</loc>
-    <lastmod>2025-03-20</lastmod>
+    <loc>https://policefiles.online/contact.html</loc>
+    <lastmod>2023-11-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
-
-  <!-- Privacy Policy Page -->
   <url>
-    <loc>https://policefiles.online/privacy-policy</loc>
-    <lastmod>2025-03-20</lastmod>
-    <changefreq>yearly</changefreq>
+    <loc>https://policefiles.online/privacy-policy.html</loc>
+    <lastmod>2023-11-14</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 </urlset>
