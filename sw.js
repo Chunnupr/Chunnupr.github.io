@@ -1,4 +1,4 @@
-const CACHE_NAME = "police-files-cache-v4";
+const CACHE_NAME = "police-files-cache-v5";
 const TWITTER_CACHE = "twitter-cache-v2";
 const PDF_CACHE = "pdf-cache-v1";
 
@@ -81,17 +81,19 @@ self.addEventListener('fetch', event => {
       })
     );
   } else if (event.request.url.endsWith('/index.html')) {
-    // Stale-while-revalidate for index.html
+    // Network-first strategy for index.html
     event.respondWith(
-      caches.open(CACHE_NAME).then(cache => {
-        return cache.match(event.request).then(cachedResponse => {
-          const fetchPromise = fetch(event.request).then(networkResponse => {
-            cache.put(event.request, networkResponse.clone());
-            return networkResponse;
-          });
-          return cachedResponse || fetchPromise;
-        });
-      })
+      fetch(event.request)
+        .then(networkResponse => {
+          return caches.open(CACHE_NAME)
+            .then(cache => {
+              cache.put(event.request, networkResponse.clone());
+              return networkResponse;
+            });
+        })
+        .catch(error => {
+          return caches.match(event.request);
+        })
     );
   } else {
     // Cache-first for other resources
