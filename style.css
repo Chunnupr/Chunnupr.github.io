@@ -1178,3 +1178,65 @@ body.dark-mode .twitter-toggle-btn.active {
     background: linear-gradient(45deg, #2980b9, #2574a9);
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
 }
+
+/* App Download Button Styles */
+.app-download-btn {
+  background: linear-gradient(45deg, #FF4E50, #F9D423) !important;
+  color: #fff !important;
+  font-weight: 500 !important;
+  padding: 8px 20px !important;
+  border-radius: 25px !important;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease !important;
+  font-size: 0.9rem !important;
+  width: auto !important;
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 !important; /* Changed from margin: 10px auto to align left */
+}
+
+.app-download-btn i {
+  font-size: 1em;
+}
+
+.app-download-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 12px rgba(255, 78, 80, 0.3) !important;
+  color: #fff !important;
+}
+
+/* Glowing Animation */
+.glow-button {
+  animation: glowing 2s infinite;
+  position: relative;
+}
+
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 3px #FF4E50,
+                0 0 6px #FF4E50,
+                0 0 9px #FF4E50;
+  }
+  50% {
+    box-shadow: 0 0 12px #FF4E50,
+                0 0 18px #FF4E50,
+                0 0 24px #FF4E50;
+  }
+  100% {
+    box-shadow: 0 0 3px #FF4E50,
+                0 0 6px #FF4E50,
+                0 0 9px #FF4E50;
+  }
+}
+
+/* Dark mode support */
+body.dark-mode .app-download-btn {
+  background: linear-gradient(45deg, #FF6B6E, #FFE054) !important;
+}
+
+body.dark-mode .app-download-btn:hover {
+  box-shadow: 0 10px 20px rgba(255, 107, 110, 0.4) !important;
+}
