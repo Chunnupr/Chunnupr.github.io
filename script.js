@@ -65,6 +65,7 @@ const folderFiles = {
   { name: "179 BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=1Z72of1VHJU-Gkr8Pks-hVuHkpNDfVhFn" },
   { name: "94 BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=1njIFIb45o2QZ_51ksehSi2H2SP6HL9Ou" },
   { name: "35 BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=1NNb8GDw4Dou8hEc2y7JYBGcbSJEBj73G" },
+  { name: "गिरफ्तारी प्रपत्र जमानतनामा मुचलका", downloadUrl: "https://drive.google.com/uc?export=download&id=1gMJ0GXNRTlLF9vC7lfSdWIxLz2SYQIG4" },
   { name: "35(3) BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=1lYZ1spaMoC3RI4csor_OdV-yZDXVB63i" },
   { name: "शांति बनाये हेतु 125,126 BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=13wBf3NzwDtYbmdi7cIsfZN64oBS9O65M" },
   { name: "प्रमाण पत्र 63(4) ग साक्ष्य अधिनियम", downloadUrl: "https://drive.google.com/uc?export=download&id=16px4Q0fThFyBWO4gJHHor-c2yhRzAEwu" },
