@@ -148,6 +148,7 @@ anya: [
   { name: "Constable rules", downloadUrl: "https://drive.google.com/uc?export=download&id=1DbDLym-3J_Z5jtZeK-6SPiLu_-Op0elL" },
   { name: "FORM NO. 54", downloadUrl: "https://drive.google.com/uc?export=download&id=1Rctls9UxYO6YrIm4gnSu7DAK5nz5Augs" },
   { name: "IMPORTANT FORMS", downloadUrl: "https://drive.google.com/uc?export=download&id=1PPTuFzVlEHKwAmtiATP5CdOHpwacTo04" },
+  { name: "GPF जीपीएफ पेंसन प्रारुप", downloadUrl: "https://drive.google.com/uc?export=download&id=1N7pwEjkkOP2K56lAQc_kM5hRphVWedja" },
   { name: "दण्ड और अपील", downloadUrl: "https://drive.google.com/uc?export=download&id=1ZzD4pJsgrdjEywU-atuNYxNoEUNxjUqr" },
   { name: "पुलिस शब्दावली", downloadUrl: "https://drive.google.com/uc?export=download&id=1tljLnh0ZTSNdO4FfH87R5zHCtYiQRhV4" }
 ]
