@@ -66,7 +66,7 @@ const folderFiles = {
   { name: "94 BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=1njIFIb45o2QZ_51ksehSi2H2SP6HL9Ou" },
   { name: "35 BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=1NNb8GDw4Dou8hEc2y7JYBGcbSJEBj73G" },
   { name: "गिरफ्तारी प्रपत्र जमानतनामा मुचलका", downloadUrl: "https://drive.google.com/uc?export=download&id=1gMJ0GXNRTlLF9vC7lfSdWIxLz2SYQIG4" },
-  { name: "35(3) BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=1lYZ1spaMoC3RI4csor_OdV-yZDXVB63i" },
+  { name: "अभियुक्त नोटिस 35(3) BNSS", downloadUrl: "https://policefiles.online/files/accusednotice.pdf" },
   { name: "शांति बनाये हेतु 125,126 BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=13wBf3NzwDtYbmdi7cIsfZN64oBS9O65M" },
   { name: "प्रमाण पत्र 63(4) ग साक्ष्य अधिनियम", downloadUrl: "https://drive.google.com/uc?export=download&id=16px4Q0fThFyBWO4gJHHor-c2yhRzAEwu" },
   { name: "चिकित्सीय परीक्षण 51,52,184 BNSS", downloadUrl: "https://drive.google.com/uc?export=download&id=1AKGE5S7OJKkUoYVcHf3U9Z1yWTXI3QMc" },
@@ -151,6 +151,7 @@ anya: [
   { name: "IMPORTANT FORMS", downloadUrl: "https://drive.google.com/uc?export=download&id=1PPTuFzVlEHKwAmtiATP5CdOHpwacTo04" },
   { name: "GPF जीपीएफ पेंसन प्रारुप", downloadUrl: "https://drive.google.com/uc?export=download&id=1N7pwEjkkOP2K56lAQc_kM5hRphVWedja" },
   { name: "दण्ड और अपील", downloadUrl: "https://drive.google.com/uc?export=download&id=1ZzD4pJsgrdjEywU-atuNYxNoEUNxjUqr" },
+  { name: "विधि विज्ञान प्रयोगशाला प्रोफार्मा", downloadUrl: "https://policefiles.online/files/vidhivigyan.pdf" },
   { name: "पुलिस शब्दावली", downloadUrl: "https://drive.google.com/uc?export=download&id=1tljLnh0ZTSNdO4FfH87R5zHCtYiQRhV4" }
 ]
 };
